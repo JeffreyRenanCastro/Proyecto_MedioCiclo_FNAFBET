@@ -7,9 +7,13 @@ from werkzeug.security import check_password_hash
 import random
 from passlib.hash import scrypt
 
+#Usamos este archivo para crear los metodos get y set de la base de datos
+# y los metodos para guardar los resultados de los juegos
+
+
 registro_bp = Blueprint('registro', __name__)
 
-
+#metodo para registrar un nuevo usuario
 @registro_bp.route('/registrousuario', methods=['GET', 'POST'])
 def registro_usuario():
     print("Entrando a la vista de registro")
@@ -45,6 +49,7 @@ def registro_usuario():
 
     return render_template('registro.html')
 
+#metodo para iniciar sesion
 @registro_bp.route('/login', methods=['GET', 'POST'])
 def login_usuario():
     if request.method == 'POST':
@@ -74,7 +79,7 @@ def login_usuario():
 
     return render_template('index2.html')
 
-
+#metodo para guardar el resultado de la tragamonedas
 bp_tragamodedas = Blueprint('tragaperras_giro', __name__)
 @bp_tragamodedas.route('/guardar_resultado_tragamonedas', methods=['POST'])
 def guardar_resultado_tragamonedas():
@@ -121,7 +126,7 @@ def guardar_resultado_tragamonedas():
 bp_ruleta = Blueprint('ruleta_juego', __name__)
 
 
-
+#metodo para guardar el resultado de la ruleta
 @bp_ruleta.route('/jugar_ruleta', methods=['POST'])
 def jugar_ruleta():
     if 'usuario_id' not in session:
@@ -181,6 +186,7 @@ def jugar_ruleta():
         "saldo_actual": round(usuario.dinero, 2)
     })
 
+#metodo para guardar los "depositos" de dinero
 bp_deposito = Blueprint('depositar_dinero', __name__)
 
 @bp_deposito.route('/depositar_dinero', methods=['GET', 'POST'])
@@ -217,6 +223,7 @@ def depositar_dinero():
 
     return render_template("Depositar.html")
 
+#metodo para guardar el resultado del juego de snake
 bp_snake_resultado = Blueprint('snake_resultado', __name__)
 
 @bp_snake_resultado.route('/guardar_resultado_snake', methods=['POST'])
@@ -237,7 +244,7 @@ def guardar_resultado_snake():
 
     return jsonify({"ok": True})
 
-
+#metodo para guardar la cuenta bancaria
 bp_cuenta = Blueprint('cuenta', __name__)
 
 @bp_cuenta.route('/guardar_cuenta_bancaria', methods=['POST'])
@@ -268,6 +275,7 @@ def guardar_cuenta_bancaria():
     flash("Cuenta bancaria guardada con éxito.", "success")
     return redirect(url_for('Cuenta_bancaria'))
 
+#metodo para "retirar" dinero 
 bp_retira = Blueprint('retirar_dinero', __name__)
 
 @bp_retira.route('/retirar_dinero', methods=['GET', 'POST'])

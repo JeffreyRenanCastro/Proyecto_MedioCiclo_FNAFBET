@@ -1,6 +1,9 @@
 from database import db
 from datetime import datetime
 
+# Definición de los modelos de la base de datos
+# no modificar el nombre de las tablas, ya que se usan en el resto del código
+# solo tocar si quieren otra tabla más
 
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

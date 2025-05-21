@@ -1,12 +1,24 @@
+#Trabajo en la app de Flask
+#Programación avanzada "A"
+
+#Poner nombres xd:
+# jhon
+# jeffrey Renan Castro Velez
+# pincai
+# megan 
+
+
+# Librerías necesarias de flask y SQLAlchemy
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from database import db
+import pymysql
+
+# Importar los blueprints de los métodos y los modelos de la base de datos
 from database.metodos import registro_bp, bp_tragamodedas, bp_ruleta, bp_deposito, bp_snake_resultado, bp_cuenta, bp_retira
 from database.models import Usuario, CuentaBancaria
-from database import models
-from database.models import Usuario
-from werkzeug.security import generate_password_hash
-import os
-import pymysql
+
+
+
 pymysql.install_as_MySQLdb()
 
 # Crear la app y configuración
@@ -19,12 +31,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 
+#inializar las rutas de los html pa que se puedan ver en flask
+
 @app.route('/')
 def home():
     return render_template('index.html')
 
-#@app.route('/process', methods=['POST'])
-#def process():
 
 @app.route('/index2', methods=['GET', 'POST'])
 def index2():
@@ -36,6 +48,9 @@ def registro():
 
 @app.route('/principal')
 def principal():
+    #El usuario_id se guarda en la session cuando el usuario inicia sesión
+    #y se elimina cuando cierra sesión
+    #Si no hay usuario_id en la session, redirige a la página de inicio de sesión
     if 'usuario_id' not in session:
         return redirect(url_for('index2'))
     return render_template('principal.html')
@@ -102,6 +117,7 @@ def Cuenta_bancaria():
 # Inicializar db con la app creada
 db.init_app(app)
 
+# Registrar los blueprints (los metodos para la base de datos)
 app.register_blueprint(registro_bp)
 app.register_blueprint(bp_tragamodedas) 
 app.register_blueprint(bp_ruleta)
@@ -110,6 +126,7 @@ app.register_blueprint(bp_snake_resultado)
 app.register_blueprint(bp_cuenta)
 app.register_blueprint(bp_retira)
 
+# inializar el proyecto
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
