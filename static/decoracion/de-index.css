@@ -1,0 +1,224 @@
+
+/* Clases Propias*/
+
+
+.Roboto{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.encima{
+    z-index: 1;
+}
+
+.centerSuperior {
+    padding-left: 28%;
+    padding-top: 40px;
+    font-weight: 300; 
+}
+
+
+
+/* Izquierda */
+.izq1{
+    left: 20px;
+    margin-top: -45rem;
+
+}
+
+.izq2{
+    left: 20px;
+    margin-top: -18rem;
+}
+.izq3{
+    left: 20px;
+    margin-top: 8rem;
+}
+
+
+/* Derecha */
+.spamDer {
+    display: flex;
+    align-items: flex-start;
+}
+
+.spamDer img {
+    height: 20vh; /* Ajusta la altura según sea necesario */
+}
+
+
+#modal {
+    position: fixed;
+    top: 50%;  /* Centra verticalmente en la mitad de la pantalla */
+    left: 50%; /* Centra horizontalmente en la mitad de la pantalla */
+    transform: translate(-50%, -50%);
+    padding-top: 0; /* Elimina el padding-top que podría estar causando el problema */
+    z-index: 2; /* Asegura que el modal esté sobre otros elementos */
+}
+
+                        /* Cuadros */
+.cabecera{
+    width: 48; /* 100% del ancho de la ventana */
+    height: 8rem;
+    background-color: #1A191A;
+    position: absolute;
+    left: 0;
+    top: 0;
+    /* controlar la superposición de elementos 0 el menor 1 por encima*/
+    z-index: 0; 
+}
+
+.cuadromedio{
+    width: 50rem;
+    /* Centrar un texto obviamente*/
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cuadromedioizqui{
+    width: 50rem;
+    text-align: left;
+    /* Centrar un objeto div, img etc*/ 
+    margin: 0 auto  ;
+}
+
+.cuadroizqui{
+    position: absolute;
+    height: 24vh;
+
+}
+
+
+.cuadroder{
+    position: relative;
+    height: 110vh;
+
+}
+
+
+.fondoizqui{
+    background-color: #211f1f;
+    width: 21vw; 
+    height: 90rem;
+    position: absolute;
+    left: 0;
+    top: 8rem;
+    /* controlar la superposición de elementos 0 el menor 1 por encima*/
+    z-index: 0; 
+}
+
+.fondoder{
+    background-color: #211f1f;
+    width: 21vw; 
+    height: 90rem; 
+    position: absolute;
+    right: 0rem;
+    top: 8rem;
+    /* controlar la superposición de elementos 0 el menor 1 por encima*/
+    z-index: 0; 
+}
+
+.espejo-horizontal {
+    transform: scaleX(-1);
+}
+
+/* Clases o etiquetas del HTML 5 modificadas para conveniencia*/
+
+body, html {  
+    /* Quitar margenes de los navegadores por defecto*/
+    margin: 0;
+    /* Quitar espacios de relleno de los navegadores por defecto*/
+    padding: 0;
+    /* Ocupa toda la altura visible del navegador*/
+    height: 100%;
+    background-color: #232123;
+    
+}
+
+
+header{
+    /* Cambio la posicion para poder usar el z-index tranquilamente xd*/
+    position:relative;
+}
+  
+footer {
+    position: relative;
+    bottom: -70%;
+    width: 97.6rem;
+    height: 20%;
+    background-color: #1A191A;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.cuadro12{
+    position: absolute;
+    width: 33rem;
+    height: 33rem;
+    background-color: #130606;
+    left: 32rem;
+    top:10rem;
+    border-radius: 10px;
+    font-size: 30px;
+}
+
+
+.input2{
+    position:absolute;
+    left: 45px;
+    width: 23rem;
+    height: 2rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    top:280px
+}
+
+.cuadro13{
+    position: absolute;
+    width: 10rem;
+    height: 5rem;
+    left: 11rem;
+    top:26rem;
+    border-radius: 10px;
+    font-size: 30px;
+    text-align: center;
+    background-color:aqua;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: black; /* O el color de texto que prefieras */
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.flash-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeOut 4s ease-out forwards;
+  }
+
+  .flash-success {
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  .flash-error {
+    background-color: #f44336;
+    color: white;
+  }
+
+  @keyframes fadeOut {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; display: none; }
+  }

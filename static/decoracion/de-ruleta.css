@@ -1,0 +1,124 @@
+
+.body1, html{
+    margin: 0;
+    padding: 0;
+    background-color: #190E14;
+}
+
+.bloc{
+margin-top: 1%;
+margin-left: 63%;
+height: 38rem;
+width: 25rem;
+border: 5px solid #000000;
+background-color: rgb(3, 3, 3);
+}
+
+.colorletras1{
+    color:aliceblue;
+}
+
+
+.borde {
+
+    -webkit-text-stroke: 4.2px black; 
+}
+
+.fondores{
+    width: 20rem;
+    height: 20rem;
+    top: 25rem;
+}
+
+.cabecera2{
+    width: 100%; /* 100% del ancho de la ventana */
+    height: 5rem;
+    background-color: #1A191A;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0; 
+}
+label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #b9e3e2;
+    color: #000000;
+    cursor: pointer;
+  }
+
+  #toggle-video {
+    display: none;
+  }
+  video {
+    display: none;
+  }
+
+  #toggle-video:checked + label + video {
+    display: block;
+  }
+
+
+  .ruleta-container {
+            position: absolute;
+            top: 2rem;
+            left: 30rem;
+            width: 540px;
+            height: 540px;
+            border-radius: 50%;
+            border: 10px solid #444;
+            background: conic-gradient(
+                red 0deg 18deg, black 18deg 36deg, red 36deg 54deg, black 54deg 72deg, 
+                red 72deg 90deg, black 90deg 108deg, red 108deg 126deg, black 126deg 144deg,
+                red 144deg 162deg, black 162deg 180deg, red 180deg 198deg, black 198deg 216deg,
+                red 216deg 234deg, black 234deg 252deg, red 252deg 270deg, black 270deg 288deg,
+                red 288deg 306deg, black 306deg 324deg, red 324deg 342deg, black 342deg 360deg
+            );
+            transition: transform 5s ease-out;
+        }
+  .flecha {
+      position: absolute;
+      top: 45%;
+      left: 96%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 40px solid yellow;
+      z-index: 10;
+      rotate: 273deg;
+    }
+
+        .boton-girar {
+      font-size: 30px;
+      padding: 10px 30px;
+      background-color: aqua;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 340px;
+      margin-left: 60px;
+    }
+
+        .resultado {
+            position: absolute;
+            top: 24rem;
+            left: 5rem;
+            font-size: 40px;
+            color: white;
+        }     
+        
+  .ruleta-wrapper {
+      position: relative;
+      width: 600px;
+      height: 600px;
+      position:absolute;
+      top:6rem;
+      left: 35rem;
+    }
+canvas {
+      border: 8px solid #444;
+      border-radius: 50%;
+      background-color: #111;
+    }      

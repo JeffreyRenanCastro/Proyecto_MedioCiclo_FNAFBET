@@ -1,0 +1,75 @@
+<!-- Jeffrey Renán Castro y asociados-->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FNAF.BET</title>
+    <!-- Aniadir logo de favicon a la pagina-->
+    <link rel="icon" href="../../static/imagenes/LOGO.png" type="image/png">
+    <!-- LLamar al Css-->
+    <link rel="stylesheet" href="../../static/decoracion/de-index.css">
+    <link rel="stylesheet" href="../../static/decoracion/de-tresenraya.css">
+    
+    <title>FNAF.BET</title>
+</head>
+
+
+<body class="body1" style =  "background-color:  #232123";>
+    <header class="encima" style="display: flex; ">
+
+        <!-- Codigo logo imagen-->
+        <logo style="padding-top: -40px; margin-left: 50px;">
+            <div style="position: absolute; padding-top: 22px;">
+                <img style="width: 100px" src="../../static/Imagenes/LOGO.png">
+            </div>
+    
+            <div style="position: absolute; padding-top: 20px; margin-left: 700px;">
+                <img style="width: 220px" src="../../static/Imagenes/tresenraya_logo.png">
+            </div>
+            
+            <div style="padding-left: 80px; padding-top:10px ">
+    
+                <h1 class="Roboto" style="color: white">FNAF<h style="color:aqua">.BET</h>
+                </h1>
+            </div>
+        </logo>
+    </header>
+    <div class="cabecera2"></div>
+
+
+
+    <div class="colorletras1 Roboto borde">
+    <a href="{{ url_for('principal') }}"> <img src="../../static/Imagenes/casita.png"style="padding-top: 40px; width: 50px;position:absolute; left: 50px;"></a>
+    
+</div>
+
+    
+
+    <div class="contenedor-juego">
+        <div class="Roboto" style="color: white"><h2>TRES EN RAYA</h2></div>
+        <p id = "juego-info" class="juego-info"></p>
+        <div class="juego-cuadricula">
+
+            <div class="cuadro"></div>
+            <div class="cuadro"></div>
+            <div class="cuadro"></div>
+            <div class="cuadro"></div>
+            <div class="cuadro"></div>
+            <div class="cuadro"></div>
+            <div class="cuadro"></div>
+            <div class="cuadro"></div>
+            <div class="cuadro"></div>
+
+        </div>
+
+        <div id ="juego-boton" class="juego-boton">Volver a jugar</div>
+    </div>
+
+
+    <script src="../../static/JavaScripts/tresenraya.js"></script>
+
+</body>
+</html>

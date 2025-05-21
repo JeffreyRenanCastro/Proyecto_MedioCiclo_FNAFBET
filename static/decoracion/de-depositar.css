@@ -1,0 +1,221 @@
+.fondoizqui1{
+    background-color: #1A191A; 
+    width: 21vw; 
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 8rem;
+    z-index: 0; 
+}
+
+.contorno{
+    font-size: 2.4rem;
+    font-weight: bold; 
+    -webkit-text-stroke: 1.7px #000
+}
+
+.icono_rayas{
+    width: 70px;
+    height: 60px;
+    margin-left:73rem;
+    margin-top:40px;
+    background-color: rgba(255, 255, 255, 0);
+    border:none;
+}
+
+.icono_rayas img {
+    width: 100%;
+    height: 100%; 
+
+}
+.cuadro {
+    position: absolute;
+    width: 13rem;
+    height: 5rem;
+    background-color:rgb(13, 127, 127);
+    border-radius: 21px; 
+}
+.cuadro1 {
+    position: absolute;
+    width: 13rem;
+    height: 6.8rem;
+    background-color:rgb(13, 127, 127);
+    border-radius: 21px; 
+}
+
+.cuadro2 {
+    position: absolute;
+    width: 55rem;
+    height: 15rem;
+    background-color: #151515;
+    border-radius: 21px; 
+    left: 25rem;
+    top: 10rem;
+}
+
+.cuadro22{
+    position: absolute;
+    width: 55rem;
+    height: 15rem;
+    background-color: #151515;
+    border-radius: 21px; 
+    left: 25rem;
+    top: 10rem;
+    margin-top:18rem
+}
+
+.cuadro3{
+    position: absolute;
+    width: 18rem;
+    height: 6rem;
+    top:16.5rem;
+    left:30rem;
+    border-radius: 33px;
+    background-color: #999599; 
+}
+
+.cuadro32{
+    position: absolute;
+    width: 18rem;
+    height: 6rem;
+    top:16.5rem;
+    left:30rem;
+    border-radius: 33px;
+    background-color: #999599; 
+    margin-top:18rem
+}
+
+
+.cuadro4{
+    position: absolute;
+    width: 7rem;
+    height: 4rem;
+    top:17.4rem;
+    left:64rem;
+    border-radius: 10px;
+    background-color: #999599;
+
+}
+
+.cuadro42{
+    position: absolute;
+    width: 7rem;
+    height: 4rem;
+    top:17.4rem;
+    left:64rem;
+    border-radius: 10px;
+    background-color: #999599;
+    margin-top:18rem
+
+}
+
+.cuadro5{
+    position: absolute;
+    width: 55rem;
+    height: 30rem;
+    background-color: #151515;
+    border-radius: 21px; 
+    left: 25rem;
+    top: 12rem;
+}
+
+.visa{
+    margin-top:20px;
+    width: 7rem;
+    margin-left:4rem;
+}
+
+.padre{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+
+.cuadro6{
+    position: absolute;
+    width: 30rem;
+    height: 4rem;
+    background-color: #989292;
+
+}
+
+.cuadro7{
+    position: absolute;
+    width: 10rem;
+    height: 4rem;
+    background-color: #989292;
+    left: 37rem;
+    top:32rem;
+    border-radius: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.cuadro8{
+    position: absolute;
+    width: 10rem;
+    height: 4.2rem;
+    background-color: #989292;
+    left: 37rem;
+    top:32rem;
+    border-radius: 10px;
+    font-size: 30px;
+    text-align: center;
+    background-color:aqua
+}
+
+.cuadro9{
+    position: absolute;
+    width: 17rem;
+    height: 3rem;
+    background-color: #989292;
+    left: 32rem;
+    top:7rem;
+    border-radius: 10px;
+    font-size: 30px;
+}
+
+.cuadro10{
+    position: absolute;
+    width: 12rem;
+    height: 4.2rem;
+    background-color: #989292;
+    left: 21rem;
+    top:22rem;
+    border-radius: 10px;
+    font-size: 30px;
+    text-align: center;
+    background-color:aqua
+}
+
+.flash-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeOut 4s ease-out forwards;
+  }
+
+  .flash-success {
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  .flash-error {
+    background-color: #f44336;
+    color: white;
+  }
+
+  @keyframes fadeOut {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; display: none; }
+  }

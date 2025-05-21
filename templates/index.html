@@ -1,0 +1,243 @@
+<!-- Ivan Josue Quimi Ramirez y asociados-->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FNAF.BET</title>
+    <!-- Aniadir logo de favicon a la pagina-->
+    <link rel="icon" href="../static/Imagenes/LOGO.png" type="image/png">
+    <!-- LLamar al Css-->
+    <link rel="stylesheet" href="../static/decoracion/de-index.css">
+    <script src="../static/JavaScripts/Codigos.js"></script>
+
+    
+</head>
+
+<body style="display:inline-flexbox;">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message flash-{{ 'success' if category == 'success' else 'error' }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+    <!-- Cabecera parte superior -->
+    <header class="encima" style="display: flex; ">
+
+        <!-- Codigo logo imagen-->
+        <logo style="padding-top: 22px; margin-left: 50px;">
+            <div style="position: absolute; padding-top: 22px;">
+                <img style= "width: 100px" src="../static/Imagenes/LOGO.png">
+            </div>
+            <div style="padding-left: 80px; padding-top:10px ">
+
+                <h1 class="Roboto" style="color: white">FNAF<h style="color:aqua">.BET</h></h1>
+            </div>
+        </logo>
+
+        <!-- Welcome-->
+        <div class="centerSuperior" style="color:aliceblue;">
+            <h1 class="Roboto"> WELCOME </h1>
+        </div> 
+
+        <!-- Boton de Inicar Sesion-->
+        <div style=" margin-left: 23rem; margin-top: 4rem;">
+            <a href="{{ url_for('registro') }}"><button id="abrirlogin" style="background-color: aqua; height: 3 rem; width: 7rem; font-size: 1.4rem; font-weight: bold;" 
+                class="Roboto">Join</button>
+            </a>
+        </div>
+        <!-- Boton de Registrarse-->
+        
+        <div style="margin-left: 1rem; margin-top: 4rem;">
+            <a href="{{ url_for('index2') }}" style="background-color: transparent; height: 3rem; width: 7rem; 
+            font-size: 1.4rem; font-weight: bold; color:aliceblue; text-decoration: none " class="Roboto"
+            >Log in</a>
+        </div>
+    
+    </header>
+
+    <!-- Fondo y cierre de la cabecera superior -->
+    <div class="cabecera"></div>
+
+
+    <!-- Agregar Reglas de la pagina en un article-->
+    <div style="height: 100vh;">
+        <div class="cuadromedioizqui">
+            <h2 class="Roboto" style="color:white; font-size: 1.6rem; font-weight: bold;">Nuevo Participante</h2>
+        </div>
+    
+        <div class="cuadromedio">
+            <p class="Roboto" style="font-size:2.3rem; font-weight: bold;color:aliceblue"> REGLAS</p>
+        </div>
+    
+        <!-- Utilizare una lista de descripcion (dl) para poner las reglas de la pagina dentro-->
+
+        <dl class="cuadromedioizqui Roboto" style="color:aliceblue">
+            <!-- Reglas -->
+            <!--1 -->
+            <dt style="font-weight:bold; font-size:1.2rem" >Verificación de la Legalidad:</dt>
+            <p>Asegúrate de que el sitio de juego esté legalmente autorizado y regulado por las autoridades competentes. </p>
+            <!--2 -->
+            <dt style="font-weight:bold; font-size:1.2rem" >Edad Legal:</dt>
+            <p>Solo participa en juegos de azar si tienes la edad legal requerida en tu jurisdicción.</p>
+            <!--3 -->
+            <dt style="font-weight:bold; font-size:1.2rem" >Juego Responsable:</dt>
+            <p>Establece límites de tiempo y dinero para el juego, y no apuestes más de lo que puedas permitirte perder.</p>
+            <!--4 -->
+            <dt style="font-weight:bold; font-size:1.2rem" >Información de Contacto:</dt>
+            <p>Asegúrate de que el sitio proporcione información de contacto clara y acceso a servicios de atención al cliente.</p>
+            <!--5 -->
+            <dt style="font-weight:bold; font-size:1.2rem" >Comprobación de Términos y Condiciones:</dt>
+            <p>Lee detenidamente los términos y condiciones del sitio, incluidos los requisitos para bonos y promociones.</p>
+            <!--6 -->
+            <dt style="font-weight:bold; font-size:1.2rem" >Protección de Datos:</dt>
+            <p>Comprende cómo se recopilan, almacenan y utilizan tus datos personales, y asegúrate de estar de acuerdo con la política de privacidad del sitio.</p>
+            <!--7 -->
+            <dt style="font-weight:bold; font-size:1.2rem" >Seguridad Financiera:</dt>
+            <p>Utiliza métodos de pago seguros y mantén segura tu información financiera.</p>
+            <!--8 -->
+            <dt style="font-weight:bold; font-size:1.2rem" >Juegos Justos:</dt>
+            <p>Asegúrate de que el sitio ofrezca juegos justos y esté respaldado por certificaciones de organismos independientes.</p>
+            <!--9 -->
+            <dt style="font-weight:bold; font-size:1.2rem" >Concientización sobre el Juego:</dt>
+            <p>Familiarízate con los recursos de juego responsable y busca ayuda si sientes que estás desarrollando problemas con el juego.</p>
+            <!--10 -->
+            <dt style="font-weight:bold; font-size:1.2rem" >Publicidad Consciente:</dt>
+            <p>No te dejes llevar por publicidades engañosas y asegúrate de entender completamente los términos de cualquier oferta promocional.</p>
+            <!--11 -->
+            <dt style="font-weight:bold; font-size:1.2rem" >Protección contra el Fraude:</dt>
+            <p>Reporta cualquier actividad sospechosa y coopera con el sitio para prevenir el fraude y el lavado de dinero.</p>
+            <!--12 -->
+            <dt style="font-weight:bold; font-size:1.2rem" >Derechos del Usuario:</dt>
+            <p>Familiarízate con tus derechos como usuario, incluido el acceso a tus datos personales y la capacidad de cerrar tu cuenta si es necesario.</p>
+            
+        </dl>
+
+
+    </div>
+
+
+    <!-- Imagenes a los lados - Spam-->
+    <spamIzqui>
+        <!-- Imagen 1 izquierda -->
+        <div  >
+            <img class="cuadroizqui encima  izq1" src="../static/Imagenes/izq1.png" alt="Spam numero 1" > 
+        </div>
+
+        <!-- Imagen 2 izquierda -->
+
+        <div > 
+            <img  class="cuadroizqui encima  izq2" src="../static/Imagenes/izq2.png" alt="Spam numero 2"> 
+        </div>
+
+            <!-- Imagen 3 izquierda -->
+
+            <div > 
+                <img  class="cuadroizqui encima  izq3" src="../static/Imagenes/izq3.png" alt="Spam numero 3"> 
+            </div>
+
+        <!-- Fondo lado izquierdo-->
+        <div class="fondoizqui"></div>
+    </spamIzqui>
+
+    <spamDer>
+        <!-- Imagen 1 Derecha -->
+        <div>
+            <img  class="cuadroizqui encima  izq1 " style="padding-left: 78rem;" src="../static/Imagenes/der1.jpg" 
+            alt="Spam numero 4"> 
+        </div>
+        <!-- Imagen 2 Derecha -->
+        <div > 
+            <img  class="cuadroizqui encima  izq2" style="padding-left: 78rem;" width="290vh" src="../static/Imagenes/der2.webp" 
+            alt="Spam numero 5"> 
+        </div>
+        <!-- Imagen 3 Derecha -->
+        <div > 
+            <img  class="cuadroizqui encima  izq3" style="padding-left: 78rem;" width="290vh" src="../static/Imagenes/der3.webp" 
+            alt="Spam numero 6"> 
+        </div>
+
+        <div class="fondoder"></div>
+        
+    </spamDer>
+
+
+
+    <!-- Pie de página -->
+    <footer style="z-index: 1; background-color: #1A191A; color: white; text-align: center; padding: 10px;">
+        <p><br><br><br>©2023 FNAF.BET. Todos los derechos reservados.</p>
+    </footer>
+
+
+
+  <!-- Modal para mensaje flash -->
+<div id="mensajeModal" style="
+    display:none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #28a745; /* verde para éxito */
+    color: white;
+    padding: 2rem 3rem;
+    border-radius: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.4rem;
+    z-index: 10000;
+    text-align: center;">
+  <span id="mensajeTexto"></span>
+  <br><br>
+  <button onclick="cerrarModal()" style="
+    background-color: aqua;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;">Cerrar</button>
+</div>
+
+<script>
+  function mostrarMensaje(mensaje) {
+    document.getElementById('mensajeTexto').innerText = mensaje;
+    document.getElementById('mensajeModal').style.display = 'block';
+  }
+  function cerrarModal() {
+    document.getElementById('mensajeModal').style.display = 'none';
+  }
+
+  // Recibimos mensajes flash con categorías
+   const mensajes = JSON.parse('{{ get_flashed_messages(with_categories=true) | tojson | safe }}');
+
+  if (mensajes.length > 0) {
+    const [categoria, mensaje] = mensajes[0];
+
+    // Cambiar color según categoría
+    if (categoria === 'success') {
+      document.getElementById('mensajeModal').style.backgroundColor = '#28a745';
+      document.getElementById('mensajeTexto').style.color = 'white';
+    } else if (categoria === 'error') {
+      document.getElementById('mensajeModal').style.backgroundColor = '#dc3545';
+      document.getElementById('mensajeTexto').style.color = 'white';
+    }
+
+    mostrarMensaje(mensaje);    
+    setTimeout(() => {
+      cerrarModal();
+      
+    }, 3000);
+  }
+</script>
+
+
+</body>
+
+</html>

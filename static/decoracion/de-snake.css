@@ -1,0 +1,50 @@
+
+  canvas {
+    border: 1px solid white;
+    position: absolute; 
+    margin-left: 300px
+  }
+  .cabecera2{
+    width: 100%; /* 100% del ancho de la ventana */
+    height: 5rem;
+    background-color: #1A191A;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0; 
+}
+.body1, html{
+    margin: 0;
+    padding: 0;
+    background-color: #190E14;
+}
+
+.bloc{
+margin-top: 1%;
+margin-left: 63%;
+height: 38rem;
+width: 25rem;
+border: 5px solid #000000;
+background-color: rgb(3, 3, 3);
+}
+
+.colorletras1{
+    color:aliceblue;
+}
+
+.fondores{
+    width: 20rem;
+    height: 20rem;
+}
+
+.borde {
+
+    -webkit-text-stroke: 4.2px black; 
+}
+label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #b9e3e2;
+    color: #000000;
+    cursor: pointer;
+  }

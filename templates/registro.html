@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FNAF.BET</title>
+    <link rel="icon" href="../static/Imagenes/LOGO.png">
+    <link rel="stylesheet" href="../static/decoracion/de-principal.css">
+    <link rel="stylesheet" href="../static/decoracion/de-index.css">
+    <link rel="stylesheet" href="../static/decoracion/de-registro.css">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Roboto, sans-serif;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: 5rem auto;
+            background-color: #111;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #191929;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        button:hover {
+            background-color: #33335a;
+        }
+
+        a {
+            color: aqua;
+            font-size: 0.8rem;
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <section class="layout3">
+        <div class="header2">
+            <h1 class="Roboto" style="color: white; text-align: center; font-size: 40px;">FNAF<h style="color:aqua">.BET
+                </h>
+            </h1>
+
+        </div>
+        <div class="main2" style="position: relative; ">
+            <!-- LETRAS DE BIENVENIDA-->
+            <div class="colorletras1 Roboto borde">
+
+                <h2 style="position:absolute;top:-2px; left: 100px; font-size:80px;"> BIENVENIDOS </h2>
+                <h2 style="position:absolute; top:6rem; left: 140px; font-size:70px;"> A UN </h2>
+                <h2 style="position:absolute; top:11rem; left: 16rem; font-size:70px;"> MUNDO </h2>
+                <h2 style="position:absolute; top:16rem; left: 20rem; font-size:70px;"> DE DIVERSION </h2>
+                <h2 style="position:absolute; top:21rem; left: 33rem; font-size:70px;"> Y </h2>
+                <h2 style="position:absolute; top:25rem; left: 30rem; font-size:70px;"> GANANCIAS </h2>
+
+                <img class="fondores" style="position: absolute" src="../static/Imagenes/fondo-registro.png">
+
+            </div>
+
+
+
+
+        </div>
+
+        <!-- Bloque de registro-->
+         <div style="position: absolute; top:7rem; " class="bloc">    
+            <div class="form-container" style="margin-top: 1rem;">
+        <h1 style="text-align: center">Registro</h1>            
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+        <form method="POST" action="{{ url_for('registro.registro_usuario') }}">
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" name="usuario" placeholder="Ej. jomico21" required>
+            </div>
+            <div class="form-group">
+                <label for="pnombre">Primer Nombre</label>
+                <input type="text" id="nombre1" name="nombre1" placeholder="Ej. Jhon" required>
+            </div>
+            <div class="form-group">
+                <label for="papellido">Primer Apellido</label>
+                <input type="text" id="apellido1" name="apellido1" placeholder="Ej. Burgos" required>
+            </div>
+            <div class="form-group">
+                <label for="sapellido">Segundo Apellido</label>
+                <input type="text" id="apellido2" name="apellido2" placeholder="Ej. Panta">
+            </div>
+            <div class="form-group">
+                <label for="correo">Correo Electrónico</label>
+                <input type="email" id="correo" name="correo" placeholder="Ej. jburgos5685@utm.edu.ec" required>
+            </div>
+            <div class="form-group">
+                <label for="contrasenia">Contraseña</label>
+                <input type="password" id="contrasenia" name="contrasenia" placeholder="Ej. jo21co" required>
+            </div>
+            <button type="submit">Crear tu Cuenta</button>            
+        </form>
+    </div>
+    </div>
+    </section>
+
+
+
+
+</body>
+
+
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>FNAF.BET</title>
+
+  <link rel="icon" href="../static/Imagenes/LOGO.png">
+  <link rel="stylesheet" href="../static/decoracion/de-index.css">
+  <link rel="stylesheet" href="../static/decoracion/de-registro.css">
+  <link rel="stylesheet" href="../static/decoracion/de-principal.css">
+</head>
+
+<body>
+  <section class="layout2">
+    <div class="header">
+      <div style="margin-left: 50px;">
+        <logo style="padding-top: 10px; margin-left: 50px;">
+          <div style="position: absolute; padding-top: 30px;">
+            <img style="width: 100px" src="../static/Imagenes/LOGO.png">
+          </div>
+          <img src="">
+
+          <div style="padding-left: 80px; padding-top:10px ">
+            <h1 class="Roboto" style="color: white">FNAF<h style="color:aqua">.BET</h>
+            </h1>
+          </div>
+
+          <img style="margin-left: 85.4rem; margin-top: -70px; position: absolute; width: 50px;"
+            src="../static/Imagenes/Usuario.png">
+          <img style="margin-left: -0.5%; margin-top: -15px; position: absolute; width: 18%;"
+            src="../static/Imagenes/shadowLogo.png">
+          <img style="margin-left: 84.72rem; margin-top: -80px; position: absolute; width: 70px;"
+            src="../static/Imagenes/cUsuario.png">
+          <h5 class="Roboto" style="color: white; margin-left: 84.4rem; margin-top: -5px; position: absolute;">Jomico
+            No.02</h5>
+
+        </logo>
+      </div>
+    </div>
+
+    <div class="main">
+      <section class="layout">
+
+        <div>
+          <a href="{{ url_for('ruleta') }}">
+            <img src="../static/Imagenes/ImgBRuleta.png">
+          </a>
+        </div>
+
+        <div>
+          <a href="{{ url_for('Depositar') }}">
+            <img src="../static/Imagenes/ImgBDepositar.png">
+          </a>
+        </div>
+
+        <div>
+          <a href="{{ url_for('menujuegos') }}">
+          <img src="../static/Imagenes/ImgBJuegos.png">
+          </a>
+        </div>
+
+        <div>
+          <a href="{{ url_for('tragamonedas') }}">
+            <img src="../static/Imagenes/ImgBTragaMonedas.png">
+          </a>
+        </div>
+
+      </section>
+
+      <div style="margin-top: -30rem;">
+        <div class="slider-box">
+          <ul>
+            <li>
+              <img src="../static/Imagenes/Img1.png" alt="">
+            </li>
+            <li>
+              <img src="../static/Imagenes/Img2.png" alt="">
+
+            </li>
+            <li>
+              <img src="../static/Imagenes/Img3.png" alt="">
+
+            </li>
+          </ul>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message flash-{{ 'success' if category == 'success' else 'error' }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+</body>

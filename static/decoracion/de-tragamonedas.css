@@ -1,0 +1,113 @@
+
+.body1, html{
+    margin: 0;
+    padding: 0;
+    background-color: #190E14;
+}
+
+.bloc{
+margin-top: 1%;
+margin-left: 63%;
+height: 38rem;
+width: 25rem;
+border: 5px solid #000000;
+background-color: rgb(3, 3, 3);
+}
+
+.colorletras1{
+    color:aliceblue;
+}
+
+
+.borde {
+    -webkit-text-stroke: 4.2px rgba(39, 6, 6, 0.415); 
+}
+
+.fondores{
+    width: 20rem;
+    height: 20rem;
+}
+.cabecera2{
+    width: 100%; /* 100% del ancho de la ventana */
+    height: 5rem;
+    background-color: #1A191A;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0; 
+}
+label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #b9e3e2;
+    color: #000000;
+    cursor: pointer;
+  }
+
+  #toggle-video {
+    display: none;
+  }
+  video {
+    display: none;
+  }
+
+  #toggle-video:checked + label + video {
+    display: block;
+  }
+
+  body {
+      background: #232123;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .slot-machine {
+      display: flex;
+      gap: 10px;
+      margin-top: 100px;
+    }
+
+    .reel {
+      width: 100px;
+      height: 100px;
+      overflow: hidden;
+      border: 4px solid #fff;
+      border-radius: 10px;
+      background: #000;
+    }
+
+    .symbols {
+      display: flex;
+      flex-direction: column;
+      transition: transform 2s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+
+    .symbol {
+      font-size: 80px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button {
+      margin-top: 40px;
+      padding: 15px 40px;
+      font-size: 24px;
+      border: none;
+      background: gold;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+ #result, #stats p {
+  color: white !important;
+  text-shadow: 1px 1px 4px black;
+}
+
+.result-win {
+  color: lime !important;
+  text-shadow: 1px 1px 6px #0f0;
+}

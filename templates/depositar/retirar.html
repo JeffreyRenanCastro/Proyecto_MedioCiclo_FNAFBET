@@ -1,0 +1,144 @@
+<!-- Ivan Josue Quimi Ramirez y asociados-->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FNAF.BET</title>
+    <!-- Aniadir logo de favicon a la pagina-->
+    <link rel="icon" href="../../static/imagenes/LOGO.png" type="image/png">
+    <!-- LLamar al Css-->
+    <link rel="stylesheet" href="../../static/decoracion/de-index.css">
+    <link rel="stylesheet" href="../../static/decoracion/de-depositar.css">
+
+
+    
+</head>
+
+<body style="display:inline-flexbox;">
+
+
+
+    <!-- Cabecera parte superior -->
+    <header class="encima" style="display: flex; ">
+
+        <!-- Codigo logo imagen-->
+        <div style="padding-top: 10px; margin-left: 50px; ">
+            <div style="position: absolute; padding-top: 22px;">
+                <img style= "width: 100px" src="../../static/Imagenes/LOGO.png">
+            </div>
+            <div style="padding-left: 80px; padding-top:10px ">
+
+                <a href="{{ url_for('principal') }}" style="text-decoration: none;">
+                    <h1 class="Roboto" style="color: white">FNAF<h style="color:aqua">.BET</h>
+                    </h1>
+                </a>
+
+            </div>
+        </div>
+
+        <button type="button" class="icono_rayas">
+            <img src="../../static/Imagenes/BOTON FOTO.png" href="../" alt="Botón con imagen">
+
+        </button>
+        
+    </header>
+
+    <!-- Fondo y cierre de la cabecera superior -->
+     <div>           
+        <div class="cabecera"></div>
+        <div class="fondoizqui1"></div>
+    </div>
+    
+    <!--Depositar-->
+    <a href="{{ url_for('Depositar') }}">
+    <button  class="cuadro" style="left: 60px; top: 12rem">
+        <div class="padre Roboto ">
+            <h1 class="contorno" style="margin-top:10px; color: white">
+                Depo<h style="color:aqua">sitar</h></h1>
+        </div>
+    </button> 
+    </a>
+
+    <!--Retirar-->
+    <a href="{{ url_for('retirar') }}">
+        <button  class="cuadro" style=" left: 60px; top: 24rem">
+            <div class="padre Roboto ">
+                <h1 class="contorno" style="margin-top:10px; color: white">
+                    Ret<h style="color:aqua">irar</h></h1>
+            </div>
+        </button> 
+    </a>
+
+    <!--Cuenta Bancaria-->
+    <a href="{{ url_for('Cuenta_bancaria') }}">
+        <!--Cuenta Bancaria-->
+        <button  class="cuadro1" style="left: 60px; top: 36rem">
+            <div class="padre Roboto ">
+                <h1 class="contorno" style="margin-top:-4px; color: white">
+                    Cuenta<h style="color:aqua"><br>Bancaria</h></h1>
+            </div>
+        </button> 
+        </a>
+
+    <!--cuadro medio-->
+    <form method="POST" action="{{ url_for('retirar_dinero.vista_retirar') }}">
+    <div class="padre Roboto cuadro5">
+        <h1 class="contorno" style="z-index: 1;margin-top:-13rem; color: white;position: absolute; 
+        font-size: 26px; margin-left: -12rem;">Escoger cuenta bancaria</h1>
+
+        <div class="cuadro6" style="margin-top:-104px"></div>
+
+        {% if cuentas %}
+        <div>
+            <select name="cuenta_id" class="contorno" required style="z-index: 1; margin-top:-4rem;
+                    background-color: #999599; font-size: 26px; width: 27rem;
+                    position: absolute; margin-left: -14rem;">
+                {% for cuenta in cuentas %}
+                    <option value="{{ cuenta.id }}">
+                        {{ cuenta.nombre_banco }} - {{ cuenta.numero_cuenta }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        {% else %}
+            <p style="color: white; font-size: 20px; margin-top: 1rem;">No tienes cuentas bancarias registradas.</p>
+        {% endif %}
+    </div>
+
+    
+        <input name="cantidad" class="cuadro7" placeholder="$0.00" required>
+        <button class="cuadro8" style="margin-left:20rem"><b>Retirar</b></button>
+    
+    
+</form>
+
+    
+    
+
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message flash-{{ 'success' if category == 'success' else 'error' }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+     
+ 
+</body>
+
+<div style="position: absolute; left: 15rem; top: 7rem;">
+    <a href="{{ url_for('principal') }}"> <img src="../../static/Imagenes/casita.png"
+            style="width: 50px;position:absolute; left: 50px;"></a>
+</div>
+
+
+
+</html>
