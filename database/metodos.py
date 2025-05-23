@@ -2,8 +2,9 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from database import db
 from database.models import Usuario, ResultadosTragaperras, ResultadosRuleta, Deposito, ResultadosSnake, CuentaBancaria, retirar
 from datetime import datetime
-from werkzeug.security import generate_password_hash
-from werkzeug.security import check_password_hash 
+
+
+
 import random
 from passlib.hash import scrypt
 
@@ -320,3 +321,66 @@ def vista_retirar():
         'nombre_banco': cuenta.nombre_banco,
         'numero_cuenta': cuenta.numero_cuenta
     } for cuenta in cuentas])
+
+
+estadisticas_bp = Blueprint('estadisticas', __name__)
+
+def obtener_estadisticas(tipo, alcance):
+    modelos = {
+        'ruleta': ResultadosRuleta,
+        'tragaperras': ResultadosTragaperras,
+        'snake': ResultadosSnake
+    }
+
+    modelo = modelos.get(tipo)
+    if not modelo:
+        return None
+
+    if tipo == 'ruleta':
+        campo_resultado = modelo.resultado
+        campo_usuario = modelo.id_usuario
+    elif tipo == 'snake':
+        campo_resultado = modelo.puntuacion
+        campo_usuario = modelo.id_usuario
+    elif tipo == 'tragaperras':
+        campo_resultado = db.func.concat(modelo.resultado1, '-', modelo.resultado2, '-', modelo.resultado3)
+        campo_usuario = modelo.id_usuario
+
+    consulta = db.session.query(campo_resultado.label('resultado'), db.func.count(campo_usuario).label('cantidad'))
+
+    if alcance == 'propias' and 'usuario_id' in session:
+        consulta = consulta.filter(campo_usuario == session['usuario_id'])
+
+    resultados = consulta.group_by('resultado').all()
+
+    # Devolver diccionario resultado: cantidad
+    return {resultado: cantidad for resultado, cantidad in resultados}
+
+@estadisticas_bp.route('/estadisticas', methods=['GET', 'POST'])
+def mostrar_estadisticas():
+    if request.method == 'POST':
+        tipo = request.form.get('tipo', 'ruleta')
+        alcance = request.form.get('alcance', 'global')
+        print(f"[POST] Tipo recibido: {tipo}, Alcance recibido: {alcance}")
+        return redirect(url_for('estadisticas.mostrar_estadisticas', tipo=tipo, alcance=alcance))
+
+    tipo = request.args.get('tipo', 'ruleta')
+    alcance = request.args.get('alcance', 'global')
+    print(f"[GET] Tipo recibido: {tipo}, Alcance recibido: {alcance}")
+
+    data = obtener_estadisticas(tipo, alcance)
+    if data is None:
+        flash("Tipo de juego no válido", "error")
+        return redirect(url_for('estadisticas.mostrar_estadisticas'))
+
+    return render_template("estadisticas.html", data=data, tipo=tipo, alcance=alcance)
+
+# Opcional: ruta para AJAX si la quieres usar
+@estadisticas_bp.route('/obtener_datos', methods=['POST'])
+def obtener_datos():
+    tipo = request.form.get('tipo', 'ruleta')
+    alcance = request.form.get('alcance', 'global')
+
+    data = obtener_estadisticas(tipo, alcance) or {}
+    print("Datos generados:", data)
+    return {"data": data}

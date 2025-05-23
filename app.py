@@ -14,7 +14,7 @@ from database import db
 import pymysql
 
 # Importar los blueprints de los métodos y los modelos de la base de datos
-from database.metodos import registro_bp, bp_tragamodedas, bp_ruleta, bp_deposito, bp_snake_resultado, bp_cuenta, bp_retira
+from database.metodos import registro_bp, bp_tragamodedas, bp_ruleta, bp_deposito, bp_snake_resultado, bp_cuenta, bp_retira, estadisticas_bp
 from database.models import Usuario, CuentaBancaria
 
 
@@ -114,6 +114,16 @@ def Cuenta_bancaria():
         return redirect(url_for('index2'))
     return render_template('depositar/Cuenta_Bancaria.html')
 
+@app.route("/estadisticas_mostrar", methods=['GET', 'POST'])
+def estadisticas_mostrar():
+    if 'usuario_id' not in session:
+        return redirect(url_for('index2'))
+    data = {}
+    tipo = request.form.get('tipo')
+    alcance = request.form.get('alcance')
+    return render_template('estadisticas.html', data=data, tipo=tipo, alcance=alcance)
+    
+
 # Inicializar db con la app creada
 db.init_app(app)
 
@@ -125,6 +135,7 @@ app.register_blueprint(bp_deposito)
 app.register_blueprint(bp_snake_resultado)
 app.register_blueprint(bp_cuenta)
 app.register_blueprint(bp_retira)
+app.register_blueprint(estadisticas_bp)
 
 # inializar el proyecto
 if __name__ == '__main__':

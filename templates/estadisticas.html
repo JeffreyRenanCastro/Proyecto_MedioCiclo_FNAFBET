@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>FNAF.BET</title>
+
+  <link rel="icon" href="../static/Imagenes/LOGO.png">
+  <link rel="stylesheet" href="../static/decoracion/de-index.css">
+  <link rel="stylesheet" href="../static/decoracion/de-registro.css">
+  <link rel="stylesheet" href="../static/decoracion/de-estadisticas.css">
+</head>
+
+<body>
+  <section class="layout2">
+    <div class="header">
+      <div style="margin-left: 50px;">
+        <logo style="padding-top: 10px; margin-left: 50px;">
+          <div style="position: absolute; padding-top: 30px;">
+            <img style="width: 100px" src="../static/Imagenes/LOGO.png">
+          </div>
+          <img src="">
+
+          <div style="padding-left: 80px; padding-top:10px ">
+            <h1 class="Roboto" style="color: white">FNAF<h style="color:aqua">.BET</h>
+            </h1>
+          </div>
+
+          <img style="margin-left: 85.4rem; margin-top: -70px; position: absolute; width: 50px;"
+            src="../static/Imagenes/Usuario.png">
+          <img style="margin-left: -0.5%; margin-top: -15px; position: absolute; width: 18%;"
+            src="../static/Imagenes/shadowLogo.png">
+          <img style="margin-left: 84.72rem; margin-top: -80px; position: absolute; width: 70px;"
+            src="../static/Imagenes/cUsuario.png">
+          <h5 class="Roboto" style="color: white; margin-left: 84.4rem; margin-top: -5px; position: absolute;">Jomico
+            No.02</h5>
+
+        </logo>
+      </div>
+ <div>
+    <h1 class="estadisticas">Estadísticas</h1>
+
+    <form method="POST" action="{{ url_for('estadisticas.mostrar_estadisticas') }}" id="filtroForm">
+        <label class="estadisticas2" for="tipo">Tipo de juego:</label>
+        <select name="tipo" id="tipo" onchange="document.getElementById('filtroForm').submit();">
+            <option value="ruleta" {% if tipo == 'ruleta' %}selected{% endif %}>Ruleta</option>
+            <option value="tragaperras" {% if tipo == 'tragaperras' %}selected{% endif %}>Tragaperras</option>
+            <option value="snake" {% if tipo == 'snake' %}selected{% endif %}>Snake</option>
+        </select>
+
+        <label class="estadisticas2" for="alcance">Alcance:</label>
+        <select name="alcance" id="alcance" onchange="document.getElementById('filtroForm').submit();">
+            <option value="global" {% if alcance == 'global' %}selected{% endif %}>Global</option>
+            <option value="propias" {% if alcance == 'propias' %}selected{% endif %}>Mis resultados</option>
+        </select>
+
+        <noscript>
+            <button type="submit">Filtrar</button>
+        </noscript>
+    </form>
+
+    <canvas id="grafico"></canvas>
+</div>
+
+<!-- Cargar Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const data = JSON.parse('{{ data | tojson | safe }}');
+    console.log(data);
+
+    if (Object.keys(data).length > 0) {
+        const ctx = document.getElementById('grafico').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(data),
+                datasets: [{
+                    label: 'Cantidad',
+                    data: Object.values(data),
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        precision: 0
+                    }
+                }
+            }
+        });
+    } else {
+        document.getElementById('grafico').style.display = 'none';
+        console.log("No hay datos para mostrar.");
+    }
+</script>
+
+    
+  </section>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message flash-{{ 'success' if category == 'success' else 'error' }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+</body>
