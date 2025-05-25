@@ -1,113 +1,40 @@
-<!-- Ivan Josue Quimi Ramirez y asociados-->
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>FNAF.BET</title>
-    <!-- Aniadir logo de favicon a la pagina-->
-    <link rel="icon" href="../static/Imagenes/LOGO.png" type="image/png">
-    <!-- LLamar al Css-->
-    <link rel="stylesheet" href="../static/decoracion/de-index.css">
-    <script src="../static/JavaScripts/Codigos.js"></script>
-
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión - FNAF.BET</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
+<body class="bg-dark text-light">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card bg-black text-light">
+          <div class="card-body">
+            <h2 class="text-center mb-4">Iniciar sesión</h2>
 
-<body style="display:inline-flexbox;">
+            <form method="POST" action="{{ url_for('registro.login_usuario') }}">
+              <div class="mb-3">
+                <label for="usuario" class="form-label">Correo</label>
+                <input type="text" class="form-control" id="email" name="email" required>
+              </div>
+              <div class="mb-3">
+                <label for="contrasena" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+              </div>
+              <button type="submit" class="btn btn-info w-100">Entrar</button>
+            </form>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="flash-message flash-{{ 'success' if category == 'success' else 'error' }}">
-        {{ message }}
+            <div class="text-center mt-3">
+              <a href="{{ url_for('registro') }}" class="text-info">¿No tienes cuenta? Regístrate</a>
+            </div>
+          </div>
+        </div>
       </div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
+    </div>
+  </div>
 
-    <!-- Cabecera parte superior -->
-    <header class="encima" style="display: flex; ">
-
-        <!-- Codigo logo imagen-->
-        <logo style="padding-top: 22px; margin-left: 50px;">
-            <div style="position: absolute; padding-top: 22px;">
-                <img style= "width: 100px" src="../static/Imagenes/LOGO.png">
-            </div>
-            <div style="padding-left: 80px; padding-top:10px ">
-
-                <h1 class="Roboto" style="color: white">FNAF<h style="color:aqua">.BET</h></h1>
-            </div>
-        </logo>
-
-        <!-- Welcome-->
-        <div class="centerSuperior" style="color:aliceblue;">
-            <h1 class="Roboto"> WELCOME </h1>
-        </div> 
-
-        <!-- Boton de Inicar Sesion-->
-        <div style=" margin-left: 23rem; margin-top: 4rem;">
-            <a href="{{ url_for('registro') }}"><button id="abrirlogin" style="background-color: aqua; height: 3 rem; width: 7rem; font-size: 1.4rem; font-weight: bold;" 
-                class="Roboto">Join</button>
-            </a>
-        </div>
-        <!-- Boton de Registrarse-->
-        
-        <div style="margin-left: 1rem; margin-top: 4rem;">
-            <a href="{{ url_for('home') }}" style="background-color: transparent; height: 3rem; width: 7rem; 
-            font-size: 1.4rem; font-weight: bold; color:aliceblue; text-decoration: none " class="Roboto"
-            >Log in</a>
-        </div>
-    
-    </header>
-
-    <!-- Fondo y cierre de la cabecera superior -->
-    <div class="cabecera"></div>
-
-
-    <!-- Agregar Reglas de la pagina en un article-->
-    <div style="height: 100vh;">
-
-        <div class="cuadro12 Roboto">
-            <logo style="padding-top: 30px; margin-left: 50px; position: absolute;">
-            <div style="position: absolute; padding-top: -50px; margin-left: 9rem;">
-                <img style="width: 130px" src="../static/Imagenes/LOGO.png">
-            </div>
-            <div style="padding-left: 80px; padding-top:10px ">
-                <h1 class="Roboto" style="color: white">FNAF<h style="color:aqua">.BET</h></h1>
-            </div>
-            </logo>
-            <div>
-                <h1 style="font-size: 30px; text-align: center; margin-top: 11rem; color:aliceblue">Iniciar Sesión</h1>
-            </div>
-             <form action="{{ url_for('registro.login_usuario') }}" method="POST">        
-        
-
-        <p style="font-size: 20px; margin-top: 1rem; margin-left: 3rem; color:aliceblue; position: absolute;">Usuario/Correo</p>
-        <input class="input2" name="email" type="email" placeholder="iquimi9873@utm.edu.ec" required>
-
-        <p style="font-size: 20px; margin-top: 5.5rem; margin-left: 3rem; color:aliceblue; position: absolute;">Contraseña</p>
-        <input style="top:22rem" class="input2" name="password" type="password" placeholder="123456***22" required>
-
-        <div style="margin-left: 23rem; margin-top: 1rem;">
-            <button type="submit" class="cuadro13 Roboto" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none; color: black; font-weight: bold;">
-                <b>Iniciar Sesión</b>
-            </button>
-        </div>
-    </form>
-        </div>
-        
-   
-</div>
-    
-
-    <!-- Pie de página -->
-    <footer style="z-index: 1; background-color: #1A191A; color: white; text-align: center; padding: 10px;">
-        <p><br><br><br>©2023 FNAF.BET. Todos los derechos reservados.</p>
-    </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

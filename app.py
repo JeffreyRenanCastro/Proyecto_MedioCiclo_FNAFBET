@@ -2,7 +2,7 @@
 #Programación avanzada "A"
 
 #Poner nombres xd:
-# jhon
+# Jhon David Burgos Panta
 # jeffrey Renan Castro Velez
 # pincai
 # megan 
@@ -12,10 +12,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from database import db
 import pymysql
+from sqlalchemy import func
 
 # Importar los blueprints de los métodos y los modelos de la base de datos
 from database.metodos import registro_bp, bp_tragamodedas, bp_ruleta, bp_deposito, bp_snake_resultado, bp_cuenta, bp_retira, estadisticas_bp
-from database.models import Usuario, CuentaBancaria
+from database.models import Usuario, CuentaBancaria, ResultadosRuleta, ResultadosTragaperras, ResultadosSnake
 
 
 
@@ -46,6 +47,14 @@ def index2():
 def registro():
     return render_template('registro.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('Sesión cerrada exitosamente.', 'success')
+    return redirect(url_for('home'))
+
+
+
 @app.route('/principal')
 def principal():
     #El usuario_id se guarda en la session cuando el usuario inicia sesión
@@ -53,7 +62,8 @@ def principal():
     #Si no hay usuario_id en la session, redirige a la página de inicio de sesión
     if 'usuario_id' not in session:
         return redirect(url_for('index2'))
-    return render_template('principal.html')
+    usuario = Usuario.query.get(session['usuario_id'])
+    return render_template('principal.html', usuario=usuario)
 
 @app.route('/terminos')
 def terminos():
@@ -65,17 +75,23 @@ def terminos():
 def menujuegos():
     if 'usuario_id' not in session:
         return redirect(url_for('index2'))
-    return render_template('juegos/menujuegos.html')
+    usuario = Usuario.query.get(session['usuario_id'])
+    return render_template('juegos/menujuegos.html', usuario=usuario)
 
 @app.route('/ruleta')
 def ruleta():
     if 'usuario_id' not in session:
         return redirect(url_for('index2'))
-    return render_template('juegos/ruleta.html')
+    usuario = Usuario.query.get(session['usuario_id'])
+    return render_template('juegos/ruleta.html', usuario=usuario)
+
 
 @app.route('/snake')
 def snake():
-    return render_template('juegos/snake.html')
+    if 'usuario_id' not in session:
+        return redirect(url_for('index2'))
+    usuario = Usuario.query.get(session['usuario_id'])
+    return render_template('juegos/snake.html', usuario=usuario)
 
 @app.route('/tragamonedas', methods=['GET', 'POST'])
 def tragamonedas():
@@ -86,13 +102,14 @@ def tragamonedas():
         usuario = Usuario.query.get(session['usuario_id'])
         if usuario and usuario.dinero is not None:
             saldo = float(usuario.dinero)
-    return render_template('juegos/tragamonedas.html', saldo=saldo)
+    return render_template('juegos/tragamonedas.html', saldo=saldo , usuario=usuario)
 
 @app.route('/tresenraya')
 def tresenraya():
     if 'usuario_id' not in session:
         return redirect(url_for('index2'))
-    return render_template('juegos/tresenraya.html')
+    usuario =Usuario.query.get(session['usuario_id'])
+    return render_template('juegos/tresenraya.html', usuario=usuario)
 
 @app.route("/Depositar", methods=['GET', 'POST'])
 def Depositar():
@@ -118,10 +135,40 @@ def Cuenta_bancaria():
 def estadisticas_mostrar():
     if 'usuario_id' not in session:
         return redirect(url_for('index2'))
+
+    usuario = Usuario.query.get(session['usuario_id'])
+    tipo = request.form.get('tipo', 'ruleta')  # por defecto ruleta
+    alcance = request.form.get('alcance', 'global')  # por defecto global
     data = {}
-    tipo = request.form.get('tipo')
-    alcance = request.form.get('alcance')
-    return render_template('estadisticas.html', data=data, tipo=tipo, alcance=alcance)
+
+    if tipo == 'ruleta':
+        query = ResultadosRuleta.query
+        if alcance == 'propias':
+            query = query.filter_by(id_usuario=usuario.id)
+        resultados = query.all()
+        for r in resultados:
+            clave = r.resultado
+            data[clave] = data.get(clave, 0) + 1
+
+    elif tipo == 'tragaperras':
+        query = ResultadosTragaperras.query
+        if alcance == 'propias':
+            query = query.filter_by(id_usuario=usuario.id)
+        resultados = query.all()
+        for r in resultados:
+            clave = f"{r.resultado1}-{r.resultado2}-{r.resultado3}"
+            data[clave] = data.get(clave, 0) + 1
+
+    elif tipo == 'snake':
+        query = ResultadosSnake.query
+        if alcance == 'propias':
+            query = query.filter_by(id_usuario=usuario.id)
+        resultados = query.all()
+        for r in resultados:
+            puntos = str(r.puntuacion)
+            data[puntos] = data.get(puntos, 0) + 1
+
+    return render_template("estadisticas.html", usuario=usuario, data=data, tipo=tipo, alcance=alcance)
     
 
 # Inicializar db con la app creada

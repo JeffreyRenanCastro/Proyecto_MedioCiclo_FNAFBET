@@ -1,72 +1,65 @@
-//fuente: https://www.edeptec.com/2021/08/juego-de-tres-en-raya-html-css-javascript.html
+let jugadorActual = '⭕';
+let juegoActivo = true;
+let tablero = ['', '', '', '', '', '', '', '', ''];
+const info = document.getElementById('juego-info');
+const cuadros = document.querySelectorAll('.cuadro');
+const btnReiniciar = document.querySelector('.juego-boton button');
 
-const cuadro_btn = document.querySelectorAll(".cuadro");
-const info = document.getElementById("juego-info");
-const juego_btn = document.getElementById("juego-boton")
-var i = 1;
-const jBtn_e =  "pointer-events:initial;opacity:initial;",
-      jBtn_d =  "pointer-events:none;opacity:40%;";
-let state = false;
+const combinacionesGanadoras = [
+  [0,1,2], [3,4,5], [6,7,8], // filas
+  [0,3,6], [1,4,7], [2,5,8], // columnas
+  [0,4,8], [2,4,6]           // diagonales
+];
 
-var pWin = [ [0,1,2],[3,4,5],[6,7,8],
-             [0,3,6],[1,4,7],[2,5,8],
-             [0,4,8],[2,4,6]
-           ];
+function actualizarInfo(mensaje) {
+  info.textContent = mensaje;
+}
 
-function comprobar(){
-  juego_btn.style.cssText = jBtn_d;
-  for (var j = 0; j < pWin.length;j++){
-    if(cuadro_btn[pWin[j][0]].innerHTML === "X" && cuadro_btn[pWin[j][1]].innerHTML === "X" && cuadro_btn[pWin[j][2]].innerHTML === "X" ){
-      info.innerHTML = '"X" Gana';
-      state = true;
-      deshabilitarCasillas();
-    }else if(cuadro_btn[pWin[j][0]].innerHTML === "O" && cuadro_btn[pWin[j][1]].innerHTML === "O" && cuadro_btn[pWin[j][2]].innerHTML === "O"){
-      info.innerHTML = '"O" Gana';
-      state = true;
-      deshabilitarCasillas();
+function verificarGanador() {
+  for (let combinacion of combinacionesGanadoras) {
+    const [a, b, c] = combinacion;
+    if (tablero[a] && tablero[a] === tablero[b] && tablero[a] === tablero[c]) {
+      juegoActivo = false;
+      actualizarInfo(`🎉 ¡${tablero[a]} gana!`);
+      return;
     }
   }
-  if(cuadro_btn[0].innerHTML != "" && cuadro_btn[1].innerHTML != "" && cuadro_btn[2].innerHTML != "" && cuadro_btn[3].innerHTML !== "" && cuadro_btn[4].innerHTML != "" && cuadro_btn[5].innerHTML != "" && cuadro_btn[6].innerHTML != "" && cuadro_btn[7].innerHTML != "" && cuadro_btn[8].innerHTML != "" && state == false){
-    info.innerHTML = "Empate";
-    deshabilitarCasillas(false);
+
+  if (!tablero.includes('')) {
+    juegoActivo = false;
+    actualizarInfo("🤝 ¡Empate!");
   }
-    
 }
 
-function  deshabilitarCasillas(y){
-  (y == false)?i = Math.floor(Math.random() * (3 - 1)) + 1:0;
-    for(var n_boton = 0; n_boton < cuadro_btn.length; n_boton++){    
-      cuadro_btn[n_boton].style.setProperty("pointer-events","none"); 
-    } 
-  juego_btn.style.cssText = jBtn_e;
-}
+function manejarClick(index) {
+  if (!juegoActivo || tablero[index]) return;
 
-function nEmpieza(){
-  info.style.color="white";
-  juego_btn.style.cssText = jBtn_d;
-  let c1;
-  (i % 2 == 0 )?c1= "X":c1= "O"; 
-  info.innerHTML = `Presione cualquier cuadro para iniciar: <b>"${c1}"</b> empieza.`;   
-}
+  tablero[index] = jugadorActual;
+  cuadros[index].textContent = jugadorActual;
 
-cuadro_btn.forEach(boton => {
-  boton.onclick = function(){
-    info.innerHTML = "";
-    (i % 2 == 0)?boton.innerHTML = "X": boton.innerHTML = "O";
-    comprobar();
-    boton.style.setProperty("pointer-events","none"); 
-    i++; 
-    (i == 3)?i = 1: 0 ;
+  verificarGanador();
+
+  if (juegoActivo) {
+    jugadorActual = jugadorActual === '⭕' ? '❌' : '⭕';
+    actualizarInfo(`Turno de ${jugadorActual}`);
   }
+}
+
+function reiniciarJuego() {
+  jugadorActual = '⭕';
+  juegoActivo = true;
+  tablero = ['', '', '', '', '', '', '', '', ''];
+  cuadros.forEach(c => c.textContent = '');
+  actualizarInfo(`Turno de ${jugadorActual}`);
+}
+
+// Asignar eventos a los cuadros
+cuadros.forEach((cuadro, index) => {
+  cuadro.addEventListener('click', () => manejarClick(index));
 });
 
-juego_btn.onclick = function(){
-  for(var n_boton = 0; n_boton < cuadro_btn.length; n_boton++){    
-    cuadro_btn[n_boton].style.cssText = "pointer-events:initial;";
-    cuadro_btn[n_boton].innerHTML = "";
-    state = false;
-  }
-  nEmpieza();
-}
+// Botón de reinicio
+btnReiniciar.addEventListener('click', reiniciarJuego);
 
-nEmpieza();
+// Inicializar mensaje
+actualizarInfo(`Turno de ${jugadorActual}`);
