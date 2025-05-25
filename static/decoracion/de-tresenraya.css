@@ -1,113 +1,150 @@
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.contenedor-juego{
-    height:100vh;
+html, body {
+    background-color: #121212;
+    color: #f5f5f5;
+}
+
+.contenedor-juego {
+    height: 100vh;
     max-width: 1250px;
+    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap:1rem;
+    gap: 2.5rem;
     text-align: center;
-
+    padding: 2rem;
+    background: radial-gradient(circle at top, #1e1e1e, #0a0a0a);
 }
 
-.juego-titulo, .juego-info{
-    text-align: center;
+.juego-titulo {
+    font-size: 3rem;
+    font-weight: 900;
+    color: gold;
+    text-shadow: 2px 2px 12px #ff0000;
+    letter-spacing: 2px;
 }
 
-.juego-cuadricula{
-   
+.juego-info {
+    font-size: 1.3rem;
+    color: #ddd;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.juego-cuadricula {
     display: grid;
-    grid-template-columns: auto auto auto;
-    gap:0;
+    grid-template-columns: repeat(3, 5rem);
+    gap: 0.75rem;
 }
 
-.cuadro{
-    width:3rem;
-    height: 3rem;
-    border: 1px solid rgb(168, 168, 168);
-    text-align: center;
-    color:rgb(7, 255, 69);
+.cuadro {
+    width: 5rem;
+    height: 5rem;
+    border: 2px solid #ffd700;
+    font-size: 1.8rem;
+    color: #00ffcc;
+    background-color: #1a1a1a;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: black;
-    transition: background-color ease-in 0.2s;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
-.cuadro:hover{
-   
-    background-color:#cccc;
-    
-}
-
-.juego-boton{
-    display:inline-flex;
-    padding: 1rem 1rem;
-    background:red ;
-    color: white;
+.cuadro:hover {
+    background-color: #2e2e2e;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    transform: scale(1.05);
     cursor: pointer;
-    justify-content: center;
+}
+
+.juego-boton {
+    padding: 1rem 2.5rem;
+    background: linear-gradient(45deg, #c70039, #900c3f);
+    color: #fff;
+    border: none;
+    border-radius: 2rem;
     font-weight: bold;
-    transition:color ease-out 0.3s;
-   
+    font-size: 1.2rem;
+    transition: all 0.3s ease-out;
+    box-shadow: 0 0 15px rgba(255, 0, 102, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.juego-boton:hover{
-  
-    background:white ;
-    color: red;
-    border: 1px solid red;
-   
+.juego-boton:hover {
+    background: #fff;
+    color: #c70039;
+    border: 2px solid #c70039;
+    box-shadow: 0 0 10px rgba(255, 0, 102, 0.6);
+    transform: scale(1.05);
 }
 
-.cabecera2{
-    width: 100%; /* 100% del ancho de la ventana */
+.cabecera2 {
+    width: 100%;
     height: 5rem;
     background-color: #1A191A;
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 0; 
-}
-.body1, html{
-    margin: 0;
-    padding: 0;
-    background-color: #190E14;
+    z-index: 10;
+    box-shadow: 0 2px 12px rgba(255, 215, 0, 0.2);
 }
 
-.bloc{
-margin-top: 1%;
-margin-left: 63%;
-height: 38rem;
-width: 25rem;
-border: 5px solid #000000;
-background-color: rgb(3, 3, 3);
+.bloc {
+    margin-top: 1%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 38rem;
+    width: 25rem;
+    border: 3px solid #ffd700;
+    background-color: #111;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
 }
 
-.colorletras1{
-    color:aliceblue;
+.colorletras1 {
+    color: gold;
 }
 
-.fondores{
+.fondores {
     width: 20rem;
     height: 20rem;
+    object-fit: cover;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(255, 0, 0, 0.3);
+    border: 2px solid #900c3f;
 }
 
 .borde {
-
-    -webkit-text-stroke: 4.2px black; 
+    -webkit-text-stroke: 4.2px black;
 }
+
 label {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #b9e3e2;
-    color: #000000;
+    background-color: gold;
+    color: #000;
     cursor: pointer;
-  }
+    border-radius: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+label:hover {
+    background-color: #ffcc00;
+    color: #000;
+    transform: scale(1.05);
+}
+
