@@ -1,113 +1,137 @@
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.contenedor-juego{
-    height:100vh;
+body, html {
+    background-color: #190E14;
+    color: #ffffff;
+}
+
+.contenedor-juego {
+    height: 100vh;
     max-width: 1250px;
+    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap:1rem;
+    gap: 2rem;
     text-align: center;
-
+    padding: 1rem;
 }
 
-.juego-titulo, .juego-info{
-    text-align: center;
+.juego-titulo {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #00ff88;
+    text-shadow: 2px 2px 10px #00ff8860;
 }
 
-.juego-cuadricula{
-   
+.juego-info {
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+.juego-cuadricula {
     display: grid;
-    grid-template-columns: auto auto auto;
-    gap:0;
+    grid-template-columns: repeat(3, 4rem);
+    gap: 0.5rem;
 }
 
-.cuadro{
-    width:3rem;
-    height: 3rem;
-    border: 1px solid rgb(168, 168, 168);
+.cuadro {
+    width: 4rem;
+    height: 4rem;
+    border: 2px solid #333;
     text-align: center;
-    color:rgb(7, 255, 69);
+    font-size: 1.5rem;
+    color: #0f0;
+    background-color: #111;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: black;
-    transition: background-color ease-in 0.2s;
+    transition: background-color 0.2s ease-in;
+    border-radius: 0.5rem;
 }
 
-.cuadro:hover{
-   
-    background-color:#cccc;
-    
-}
-
-.juego-boton{
-    display:inline-flex;
-    padding: 1rem 1rem;
-    background:red ;
-    color: white;
+.cuadro:hover {
+    background-color: #333;
     cursor: pointer;
-    justify-content: center;
+}
+
+.juego-boton {
+    padding: 0.8rem 2rem;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+    border: none;
+    border-radius: 1.5rem;
     font-weight: bold;
-    transition:color ease-out 0.3s;
-   
+    font-size: 1rem;
+    transition: all 0.3s ease-out;
+    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
 }
 
-.juego-boton:hover{
-  
-    background:white ;
-    color: red;
-    border: 1px solid red;
-   
+.juego-boton:hover {
+    background: white;
+    color: #ff416c;
+    border: 1px solid #ff416c;
+    box-shadow: none;
 }
 
-.cabecera2{
-    width: 100%; /* 100% del ancho de la ventana */
+.cabecera2 {
+    width: 100%;
     height: 5rem;
     background-color: #1A191A;
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 0; 
-}
-.body1, html{
-    margin: 0;
-    padding: 0;
-    background-color: #190E14;
+    z-index: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-.bloc{
-margin-top: 1%;
-margin-left: 63%;
-height: 38rem;
-width: 25rem;
-border: 5px solid #000000;
-background-color: rgb(3, 3, 3);
+.bloc {
+    margin-top: 1%;
+    margin-left: 63%;
+    height: 38rem;
+    width: 25rem;
+    border: 5px solid #000000;
+    background-color: #111;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 0 10px #000;
 }
 
-.colorletras1{
-    color:aliceblue;
+.colorletras1 {
+    color: aliceblue;
 }
 
-.fondores{
+.fondores {
     width: 20rem;
     height: 20rem;
+    object-fit: cover;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
 .borde {
-
-    -webkit-text-stroke: 4.2px black; 
+    -webkit-text-stroke: 4.2px black;
 }
+
 label {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #b9e3e2;
-    color: #000000;
+    background-color: #00ffd5;
+    color: #000;
     cursor: pointer;
-  }
+    border-radius: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+label:hover {
+    background-color: #00bfa6;
+    color: #fff;
+}
