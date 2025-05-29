@@ -46,6 +46,15 @@ class ResultadosRuleta(db.Model):
     fecha = db.Column(db.DateTime, default=datetime.utcnow)
     dinero_invertido = db.Column(db.Float, nullable=False)
     dinero_ganado = db.Column(db.Float)
+    
+class ResultadosBlackjack(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    cartas_jugador = db.Column(db.String(100))
+    cartas_crupier = db.Column(db.String(100))
+    fecha = db.Column(db.DateTime, default=datetime.utcnow)
+    dinero_invertido = db.Column(db.Float)
+    dinero_ganado = db.Column(db.Float)
 
 class CuentaBancaria(db.Model):
     __tablename__ = 'cuenta_bancaria'

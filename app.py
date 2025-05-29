@@ -4,7 +4,7 @@
 #Poner nombres xd:
 # Jhon David Burgos Panta
 # jeffrey Renan Castro Velez
-# pincai
+# John Alexander Pincay Baque
 # megan 
 
 
@@ -15,8 +15,8 @@ import pymysql
 from sqlalchemy import func
 
 # Importar los blueprints de los métodos y los modelos de la base de datos
-from database.metodos import registro_bp, bp_tragamodedas, bp_ruleta, bp_deposito, bp_snake_resultado, bp_cuenta, bp_retira, estadisticas_bp
-from database.models import Usuario, CuentaBancaria, ResultadosRuleta, ResultadosTragaperras, ResultadosSnake
+from database.metodos import registro_bp, bp_tragamodedas, bp_ruleta, bp_blackjack, bp_deposito, bp_snake_resultado, bp_cuenta, bp_retira, estadisticas_bp
+from database.models import Usuario, CuentaBancaria, ResultadosRuleta, ResultadosBlackjack, ResultadosTragaperras, ResultadosSnake
 
 
 
@@ -39,13 +39,13 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/index2', methods=['GET', 'POST'])
-def index2():
-    return render_template('index2.html')
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    return render_template('auth/login.html')
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
-    return render_template('registro.html')
+    return render_template('auth/registro.html')
 
 @app.route('/logout')
 def logout():
@@ -61,42 +61,48 @@ def principal():
     #y se elimina cuando cierra sesión
     #Si no hay usuario_id en la session, redirige a la página de inicio de sesión
     if 'usuario_id' not in session:
-        return redirect(url_for('index2'))
+        return redirect(url_for('login'))
     usuario = Usuario.query.get(session['usuario_id'])
     return render_template('principal.html', usuario=usuario)
 
 @app.route('/terminos')
 def terminos():
     if 'usuario_id' not in session:
-        return redirect(url_for('index2'))
+        return redirect(url_for('login'))
     return render_template('terminos.html')
 
 @app.route('/menujuegos')
 def menujuegos():
     if 'usuario_id' not in session:
-        return redirect(url_for('index2'))
+        return redirect(url_for('login'))
     usuario = Usuario.query.get(session['usuario_id'])
     return render_template('juegos/menujuegos.html', usuario=usuario)
 
 @app.route('/ruleta')
 def ruleta():
     if 'usuario_id' not in session:
-        return redirect(url_for('index2'))
+        return redirect(url_for('login'))
     usuario = Usuario.query.get(session['usuario_id'])
     return render_template('juegos/ruleta.html', usuario=usuario)
 
+@app.route('/blackjack')
+def blackjack():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
+    usuario = Usuario.query.get(session['usuario_id'])
+    return render_template('juegos/blackjack.html', usuario=usuario)
 
 @app.route('/snake')
 def snake():
     if 'usuario_id' not in session:
-        return redirect(url_for('index2'))
+        return redirect(url_for('login'))
     usuario = Usuario.query.get(session['usuario_id'])
     return render_template('juegos/snake.html', usuario=usuario)
 
 @app.route('/tragamonedas', methods=['GET', 'POST'])
 def tragamonedas():
     if 'usuario_id' not in session:
-        return redirect(url_for('index2'))
+        return redirect(url_for('login'))
     saldo = 0.0
     if 'usuario_id' in session:
         usuario = Usuario.query.get(session['usuario_id'])
@@ -107,34 +113,34 @@ def tragamonedas():
 @app.route('/tresenraya')
 def tresenraya():
     if 'usuario_id' not in session:
-        return redirect(url_for('index2'))
+        return redirect(url_for('login'))
     usuario =Usuario.query.get(session['usuario_id'])
     return render_template('juegos/tresenraya.html', usuario=usuario)
 
 @app.route("/Depositar", methods=['GET', 'POST'])
 def Depositar():
     if 'usuario_id' not in session:
-        return redirect(url_for('index2'))
-    return render_template('depositar/Depositar.html')
+        return redirect(url_for('login'))
+    return render_template('cuenta/depositar.html')
 
 @app.route("/retirar", methods=['GET', 'POST'])
 def retirar():
     if 'usuario_id' not in session:
-        return redirect(url_for('index2'))
+        return redirect(url_for('login'))
     usuario_id = session['usuario_id']
     cuentas = CuentaBancaria.query.filter_by(id_usuario=usuario_id).all()
-    return render_template('depositar/retirar.html', cuentas=cuentas)
+    return render_template('cuenta/retirar.html', cuentas=cuentas)
 
 @app.route("/Cuenta_bancaria", methods=['GET', 'POST'])
 def Cuenta_bancaria():
     if 'usuario_id' not in session:
-        return redirect(url_for('index2'))
-    return render_template('depositar/Cuenta_Bancaria.html')
+        return redirect(url_for('login'))
+    return render_template('cuenta/cuenta_bancaria.html')
 
 @app.route("/estadisticas_mostrar", methods=['GET', 'POST'])
 def estadisticas_mostrar():
     if 'usuario_id' not in session:
-        return redirect(url_for('index2'))
+        return redirect(url_for('login'))
 
     usuario = Usuario.query.get(session['usuario_id'])
     tipo = request.form.get('tipo', 'ruleta')  # por defecto ruleta
@@ -143,6 +149,15 @@ def estadisticas_mostrar():
 
     if tipo == 'ruleta':
         query = ResultadosRuleta.query
+        if alcance == 'propias':
+            query = query.filter_by(id_usuario=usuario.id)
+        resultados = query.all()
+        for r in resultados:
+            clave = r.resultado
+            data[clave] = data.get(clave, 0) + 1
+            
+    elif tipo == 'blackjack':
+        query = ResultadosBlackjack.query
         if alcance == 'propias':
             query = query.filter_by(id_usuario=usuario.id)
         resultados = query.all()
@@ -178,6 +193,7 @@ db.init_app(app)
 app.register_blueprint(registro_bp)
 app.register_blueprint(bp_tragamodedas) 
 app.register_blueprint(bp_ruleta)
+app.register_blueprint(bp_blackjack)
 app.register_blueprint(bp_deposito)
 app.register_blueprint(bp_snake_resultado)
 app.register_blueprint(bp_cuenta)

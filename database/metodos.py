@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify
 from database import db
-from database.models import Usuario, ResultadosTragaperras, ResultadosRuleta, Deposito, ResultadosSnake, CuentaBancaria, retirar
+from database.models import Usuario, ResultadosTragaperras, ResultadosRuleta, ResultadosBlackjack, Deposito, ResultadosSnake, CuentaBancaria, retirar
 from datetime import datetime
 
 
@@ -48,10 +48,10 @@ def registro_usuario():
         return redirect(url_for('home'))
         #return redirect(url_for('registro.registro_usuario'))
 
-    return render_template('registro.html')
+    return render_template('auth/registro.html')
 
 #metodo para iniciar sesion
-@registro_bp.route('/login', methods=['GET', 'POST'])
+@registro_bp.route('/auth_login', methods=['GET', 'POST'])
 def login_usuario():
     if request.method == 'POST':
         correo = request.form['email']
@@ -78,7 +78,7 @@ def login_usuario():
             flash('Correo o contraseña incorrectos.', 'error')
             return redirect(url_for('registro.login_usuario'))
 
-    return render_template('index2.html')
+    return render_template('login.html')
 
 #metodo para guardar el resultado de la tragamonedas
 bp_tragamodedas = Blueprint('tragaperras_giro', __name__)
@@ -186,6 +186,48 @@ def jugar_ruleta():
         "dinero_ganado": dinero_ganado,
         "saldo_actual": round(usuario.dinero, 2)
     })
+    
+    
+bp_blackjack = Blueprint('blackjack_resultado', __name__)
+#metodo para guardar el resultado de blackjack
+@bp_blackjack.route('/guardar_resultado_blackjack', methods=['POST'])
+def guardar_resultado_blackjack():
+    if 'usuario_id' not in session:
+        return jsonify({"error": "Usuario no autenticado"}), 401
+
+    data = request.get_json()
+    cartas_jugador = data.get('cartas_jugador', '')
+    cartas_crupier = data.get('cartas_crupier', '')
+    dinero_jugado = float(data.get('dinero_jugado', 0))
+    gano = data.get('gano', False)
+
+    dinero_ganado = dinero_jugado * 2 if gano else 0
+
+    usuario = db.session.get(Usuario, session['usuario_id'])
+    if not usuario:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    if usuario.dinero is None or usuario.dinero < dinero_jugado:
+        return jsonify({"error": "Saldo insuficiente"}), 400
+
+    # Guardar resultado
+    nuevo_resultado = ResultadosBlackjack(
+        id_usuario=usuario.id,
+        cartas_jugador=cartas_jugador,
+        cartas_crupier=cartas_crupier,
+        dinero_invertido=dinero_jugado,
+        dinero_ganado=dinero_ganado
+    )
+    db.session.add(nuevo_resultado)
+
+    # Actualizar saldo del usuario
+    usuario.dinero -= dinero_jugado
+    usuario.dinero += dinero_ganado
+
+    db.session.commit()
+
+    return jsonify({"saldo_actual": round(usuario.dinero, 2)}), 200   
+    
 
 #metodo para guardar los "depositos" de dinero
 bp_deposito = Blueprint('depositar_dinero', __name__)
@@ -222,7 +264,7 @@ def depositar_dinero():
         flash("Depósito exitoso.")
         return redirect(url_for('principal'))  # Puedes redirigir a donde gustes
 
-    return render_template("Depositar.html")
+    return render_template("cuenta/depositar.html")
 
 #metodo para guardar el resultado del juego de snake
 bp_snake_resultado = Blueprint('snake_resultado', __name__)
@@ -252,7 +294,7 @@ bp_cuenta = Blueprint('cuenta', __name__)
 def guardar_cuenta_bancaria():
     if 'usuario_id' not in session:
         flash("Debes iniciar sesión para guardar una cuenta bancaria.", "error")
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('login'))
 
     nombre_banco = request.form.get('nombre_banco', '').strip()
     cedula = request.form.get('cedula', '').strip()

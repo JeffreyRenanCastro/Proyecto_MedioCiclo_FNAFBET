@@ -6,104 +6,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Principal - FNAF.BET</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <style>
-    body {
-      background-color: #1a1a1a;
-      color: white;
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background-color: black;
-    }
-
-    .botones-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2rem;
-      padding: 4rem 5rem;
-    }
-
-    .botones-grid a img {
-      width: 100%;
-      max-width: 300px;
-      height: auto;
-      border-radius: 15px;
-      transition: transform 0.3s;
-    }
-
-    .botones-grid a img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px aqua;
-    }
-
-    .carousel {
-      margin-top: 3rem;
-    }
-
-    .dropdown img {
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/de-principal.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base-styles.css') }}">
 </head>
 
 <body>
 
-
   <!-- Cabecera -->
   <div class="header">
     <div class="d-flex align-items-center">
-      <img src="{{ url_for('static', filename='Imagenes/LOGO.png') }}" width="60">
+      <img src="{{ url_for('static', filename='Image/LOGO.png') }}" width="60">
       <h3 class="ms-3 mb-0">FNAF<span style="color:aqua">.BET</span></h3>
     </div>
+
     <!-- Flash Messages con animación y botón cerrar -->
-    <div class="container mt-3 position-fixed top-0 start-50 translate-middle-x" style="z-index: 1050;">
+    <div class="position-fixed top-0 start-50 translate-middle-x w-auto p-3" style="z-index: 1050; pointer-events: none;">
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
       {% for category, message in messages %}
-      <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show shadow"
-        role="alert" style="animation: fadeIn 0.5s;">
+      <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show shadow" role="alert"
+        style="animation: fadeIn 0.5s;">
         {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="closeAlert(this)" aria-label="Close"></button>
       </div>
       {% endfor %}
       {% endif %}
       {% endwith %}
     </div>
 
-    <style>
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-    </style>
-
-    <script>
-      // Ocultar automáticamente después de 4 segundos
-      setTimeout(() => {
-        const alerts = document.querySelectorAll('.alert');
-        alerts.forEach(alert => {
-          alert.classList.remove('show');
-          alert.classList.add('hide');
-          setTimeout(() => alert.remove(), 500);
-        });
-      }, 4000);
-    </script>
 
     <!-- Menú desplegable del usuario -->
     <div class="dropdown text-center">
       <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="{{ url_for('static', filename='Imagenes/Usuario.png') }}" alt="Avatar"
+        <img src="{{ url_for('static', filename='Image/Usuario.png') }}" alt="Avatar"
           style="width: 50px; border-radius: 50%;">
       </a>
       <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark text-center">
@@ -123,36 +58,48 @@
   </div>
 
   <!-- Zona de botones -->
-  <div class="botones-grid text-center">
-    <a href="{{ url_for('tragamonedas') }}">
-      <img src="{{ url_for('static', filename='Imagenes/ImgBTragaMonedas.png') }}" alt="Tragamonedas">
-    </a>
-    <a href="{{ url_for('ruleta') }}">
-      <img src="{{ url_for('static', filename='Imagenes/ImgBRuleta.png') }}" alt="Ruleta">
-    </a>
-    <a href="{{ url_for('menujuegos') }}">
-      <img src="{{ url_for('static', filename='Imagenes/ImgBJuegos.png') }}" alt="Juegos">
-    </a>
-    <a href="{{ url_for('Depositar') }}">
-      <img src="{{ url_for('static', filename='Imagenes/ImgBDepositar.png') }}" alt="Depositar">
-    </a>
+  <div class="container text-center">
+    <div class="button-grid">
+      <a href="{{ url_for('tragamonedas') }}" class="button btn-main">
+        <img src="{{ url_for('static', filename='Image/icon/iconSlotMachine.png') }}" alt="Tragamonedas">
+        <span>Tragamonedas</span>
+      </a>
+      <a href="{{ url_for('ruleta') }}" class="button btn-main">
+        <img src="{{ url_for('static', filename='Image/icon/iconRuleta.png') }}" alt="Ruleta">
+        <span>Ruleta</span>
+      </a>
+      <a href="{{ url_for('blackjack') }}" class="button btn-main">
+        <img src="{{ url_for('static', filename='Image/icon/iconBlackjack.png') }}" alt="Blackjack">
+        <span>Blackjack</span>
+      </a>
+      <a href="{{ url_for('menujuegos') }}" class="button btn-main">
+        <img src="{{ url_for('static', filename='Image/icon/iconGames.png') }}" alt="Juegos">
+        <span>Juegos</span>
+      </a>
+      <a href="{{ url_for('Depositar') }}" class="button btn-main">
+        <img src="{{ url_for('static', filename='Image/icon/iconCreditCard.png') }}" alt="Depositar">
+        <span>Depositar</span>
+      </a>
+    </div>
   </div>
 
   <!-- Carrusel de publicidad -->
   <div id="carouselPublicidad" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="{{ url_for('static', filename='Imagenes/Img1.png') }}" class="d-block w-100" alt="Publicidad 1">
+        <img src="{{ url_for('static', filename='Image/carrusel/Img1.png') }}" class="d-block w-100" alt="Publicidad 1">
       </div>
       <div class="carousel-item">
-        <img src="{{ url_for('static', filename='Imagenes/Img2.png') }}" class="d-block w-100" alt="Publicidad 2">
+        <img src="{{ url_for('static', filename='Image/carrusel/Img2.png') }}" class="d-block w-100" alt="Publicidad 2">
       </div>
       <div class="carousel-item">
-        <img src="{{ url_for('static', filename='Imagenes/Img3.png') }}" class="d-block w-100" alt="Publicidad 3">
+        <img src="{{ url_for('static', filename='Image/carrusel/Img3.png') }}" class="d-block w-100" alt="Publicidad 3">
       </div>
     </div>
   </div>
 
+  <!-- Scripts -->
+  <script src="{{url_for('static', filename='js/baseScripts.js')}}"></script>
   <!-- Scripts de Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

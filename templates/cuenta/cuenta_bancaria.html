@@ -1,4 +1,3 @@
-<!-- Ivan Josue Quimi Ramirez y asociados-->
 <!DOCTYPE html>
 <html lang="es">
 
@@ -9,11 +8,10 @@
 
     <title>FNAF.BET</title>
     <!-- Aniadir logo de favicon a la pagina-->
-    <link rel="icon" href="../../static/imagenes/LOGO.png" type="image/png">
+    <link rel="icon" href="../../static/image/LOGO.png" type="image/png">
     <!-- LLamar al Css-->
-    <link rel="stylesheet" href="../../static/decoracion/de-index.css">
-    <link rel="stylesheet" href="../../static/decoracion/de-depositar.css">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/de-index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/de-depositar.css') }}">
 
 
 </head>
@@ -28,7 +26,7 @@
         <!-- Codigo logo imagen-->
         <div style="padding-top: 10px; margin-left: 50px; ">
             <div style="position: absolute; padding-top: 22px;">
-                <img style="width: 100px" src="../../static/Imagenes/LOGO.png">
+                <img style="width: 100px" src="../../static/Image/LOGO.png">
             </div>
             <div style="padding-left: 80px; padding-top:10px ">
 
@@ -41,7 +39,7 @@
         </div>
 
         <button type="button" class="icono_rayas">
-            <img src="../../static/Imagenes/BOTON FOTO.png" href="../" alt="Botón con imagen">
+            <img src="../../static/Image/BOTON FOTO.png" href="../" alt="Botón con imagen">
 
         </button>
 
@@ -115,7 +113,7 @@
 </form>
 
     <div style="position: absolute; left: 15rem; top: 7rem;">
-    <a href="{{ url_for('principal') }}"> <img src="../../static/Imagenes/casita.png"
+    <a href="{{ url_for('principal') }}"> <img src="../../static/Image/casita.png"
             style="width: 50px;position:absolute; left: 50px;"></a>
 </div>
 
