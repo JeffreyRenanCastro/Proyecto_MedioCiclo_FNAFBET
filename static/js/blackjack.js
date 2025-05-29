@@ -1,191 +1,141 @@
-// === SONIDOS ===
-const boton1 = document.querySelector("#button1");
-const boton2 = document.querySelector("#button2");
-const boton3 = document.querySelector("#button3");
-const mensajeDerecha = document.querySelector("#textright");
-const mensajeIzquierda = document.querySelector("#textleft");
-const saldo = document.querySelector("#balance");
-const cartaCrupier = document.querySelector("#dealercard");
-const cartaJugador = document.querySelector("#yourcard");
+const miModulo = (() => {
 
-let sonidoCarta = new Audio('Sounds/drawcard.mp3');
-let sonidoGanaCrupier = new Audio('Sounds/dealerwin.wav');
-let sonidoGanaJugador = new Audio('Sounds/playerwin.mp3');
-let sonidoEmpate = new Audio('Sounds/gamedrawsound.wav');
+    'use strict'
 
-sonidoCarta.volume = 0.1;
-sonidoGanaCrupier.volume = 0.1;
-sonidoGanaJugador.volume = 0.1;
-sonidoEmpate.volume = 0.1;
+    // Arreglos y constantes para el manejo del deck
+    let deck         = [];
+    const tipos      = ['C', 'D', 'H', 'S'],
+          especiales = ['A', 'J', 'K', 'Q'];
 
-let dinero = parseInt(saldo.innerText);
-let juegoActivo = false;
+    // Referencias HTML
+    const btnPedir           = document.querySelector('#btnPedir'),
+          btnDetener         = document.querySelector('#btnDetener'),
+          btnNuevo           = document.querySelector('#btnNuevo');
+          
+    const puntosHTML         = document.querySelectorAll('span'),
+          divCartasJugadores = document.querySelectorAll('.divCartas');
 
-const mazo = [
-    ...["Corazones", "Diamantes", "Tréboles", "Picas"].flatMap(palo => [
-        { tipo: 'A', valor: 11 },
-        ...Array.from({ length: 9 }, (_, i) => ({ tipo: (i + 2).toString(), valor: i + 2 })),
-        { tipo: '10', valor: 10 },
-        { tipo: 'J', valor: 10 },
-        { tipo: 'Q', valor: 10 },
-        { tipo: 'K', valor: 10 },
-    ].map(carta => ({ ...carta, palo })))
-];
+    let puntosJugadores = [];
 
-let contadorJugador = 0;
-let sumaJugador = 0;
-let sumaCrupier = 0;
-let ganador;
-let apuesta;
+    /*
+     * FUNCIONES
+     */
 
-function sacarCarta() {
-    sonidoCarta.play();
-    const indice = Math.floor(Math.random() * mazo.length);
-    const carta = mazo[indice];
-    if (carta.tipo === 'A' && contadorJugador <= 1) return { ...carta, valor: 11 };
-    else if (carta.tipo === 'A') return { ...carta, valor: 1 };
-    return carta;
-}
+    const inicializarJuego = ( numJugadores = 2 ) => {
+        deck            = crearDeck();
+        puntosJugadores = [];
 
-function sacarJugador() {
-    const carta = sacarCarta();
-    contadorJugador++;
-    document.querySelector("#suitU").innerText = carta.palo;
-    document.querySelector("#typeU").innerText = carta.tipo;
-    sumaJugador += carta.valor;
-    document.querySelector("#valueU").innerText = sumaJugador;
-
-    mensajeIzquierda.style.color = "aliceblue";
-    if (sumaJugador < 21) sacarCrupier();
-    else verificarGanador();
-}
-
-function sacarCrupier() {
-    if (sumaCrupier < 17 || sumaCrupier < sumaJugador) {
-        const carta = sacarCarta();
-        document.querySelector("#suitD").innerText = carta.palo;
-        document.querySelector("#typeD").innerText = carta.tipo;
-        sumaCrupier += carta.valor;
-        document.querySelector("#valueD").innerText = sumaCrupier;
-
-        if (sumaCrupier === 21) {
-            mostrarResultado("Crupier gana", sonidoGanaCrupier, "red");
-        } else if (sumaCrupier > 21) {
-            dinero += 2 * apuesta;
-            mostrarResultado("Ganaste", sonidoGanaJugador, "rgb(3,255,3)");
+        for (let i = 0; i < numJugadores; i++) {
+            puntosJugadores.push(0);
         }
-    } else {
-        verificarGanador();
-    }
-}
 
-function verificarGanador() {
-    juegoActivo = false;
-    actualizarUbicacion(ubicaciones[0]);
+        puntosHTML.forEach(elem => elem.innerText = 0);
+        divCartasJugadores.forEach(elem => elem.innerHTML = '');
 
-    if (sumaCrupier > 21) ganador = 'Jugador';
-    else if (sumaJugador > 21) ganador = 'Crupier';
-    else if (sumaJugador === 21) ganador = 'Jugador';
-    else if (sumaCrupier === 21) ganador = 'Crupier';
-    else if (sumaJugador === sumaCrupier) ganador = 'Empate';
-    else ganador = sumaJugador > sumaCrupier ? 'Jugador' : 'Crupier';
-
-    if (ganador === 'Jugador') {
-        dinero += 2 * apuesta;
-        mostrarResultado("Ganaste", sonidoGanaJugador, "rgb(3,255,3)");
-    } else if (ganador === 'Crupier') {
-        mostrarResultado("Crupier gana", sonidoGanaCrupier, "red");
-    } else {
-        dinero += apuesta;
-        mostrarResultado("Empate", sonidoEmpate, "#ffbd08");
+        btnDetener.disabled = false;
+        btnPedir.disabled   = false;
     }
 
-    saldo.innerText = dinero;
-    contadorJugador = 0;
-    sumaJugador = 0;
-    sumaCrupier = 0;
-}
+    // Crear y barajar el deck
+    const crearDeck = () => {
+        deck = [];
 
-function mostrarResultado(texto, sonido, color) {
-    mensajeIzquierda.innerText = texto;
-    mensajeIzquierda.style.color = color;
-    sonido.play();
-}
+        for (let i = 2; i <= 10; i++) {
+            for (let tipo of tipos) {
+                deck.push(i + tipo);
+            }
+        }
 
-function apostar(cantidad) {
-    if (dinero >= cantidad && !juegoActivo) {
-        dinero -= cantidad;
-        saldo.innerText = dinero;
-        actualizarUbicacion(ubicaciones[1]);
-        juegoActivo = true;
-        mostrarCartas();
-        sacarJugador();
-        apuesta = cantidad;
-    } else {
-        alert(juegoActivo ? "Ya estás jugando" : "No tienes suficiente dinero");
+        for (let especial of especiales) {
+            for (let tipo of tipos) {
+                deck.push(especial + tipo);
+            }
+        }
+
+        return _.shuffle(deck); // Requiere underscore.js
     }
-}
 
-function plantarse() {
-    if (juegoActivo && contadorJugador >= 2) {
-        sacarCrupier();
-        verificarGanador();
-    } else {
-        alert("Debes sacar al menos dos cartas antes de plantarte.");
+    const pedirCarta = () => {
+        if (deck.length === 0) throw 'No hay cartas en el deck';
+        return deck.pop();
     }
-}
 
-function doblar() {
-    dinero -= apuesta;
-    apuesta *= 2;
-    saldo.innerText = dinero;
-    mensajeDerecha.innerText = "Apuesta Doblada";
-    sacarJugador();
-}
+    const valorCarta = (carta) => {
+        const valor = carta.substring(0, carta.length - 1);
+        return isNaN(valor) ? (valor === 'A' ? 11 : 10) : valor * 1;
+    }
 
-function mostrarCartas() {
-    if (juegoActivo) {
+    const acumularPuntos = (carta, turno) => {
+        puntosJugadores[turno] += valorCarta(carta);
+        puntosHTML[turno].innerText = puntosJugadores[turno];
+        return puntosJugadores[turno];
+    }
+
+    const crearCarta = (carta, turno) => {
+        const imgCarta = document.createElement('img');
+        imgCarta.src = `static/image/cartas/${carta}.png`;
+        imgCarta.classList.add('carta');
+        divCartasJugadores[turno].append(imgCarta);
+    }
+
+    const determinarGanador = () => {
+        const [puntosMinimos, puntosComputadora] = puntosJugadores;
+
         setTimeout(() => {
-            cartaJugador.style.display = "block";
-            mensajeIzquierda.style.animationName = ''; 
-            mensajeIzquierda.style.borderRight = 'none'; 
-            setTimeout(() => cartaCrupier.style.display = "block", 1000);
-        }, 1000);
-    } else {
-        cartaCrupier.style.display = "none";
-        cartaJugador.style.display = "none";
+            if (puntosMinimos === puntosComputadora) {
+                alert('¡Empate!');
+            } else if ((puntosMinimos > puntosComputadora && puntosMinimos <= 21) || puntosComputadora > 21) {
+                alert('¡Ganaste!');
+            } else {
+                alert('¡Perdiste!');
+            }
+        }, 100);
     }
-}
 
-const ubicaciones = [
-    {
-        nombre: "Menú de Apuesta",
-        "boton texto": ["$100", "$500", "$1000"],
-        "boton funciones": [() => apostar(100), () => apostar(500), () => apostar(1000)],
-        mensajeIzquierda: "Elige tu apuesta",
-        mensajeDerecha: "Nueva apuesta",
-    },
-    {
-        nombre: "Juego",
-        "boton texto": ["Sacar", "Plantarse", "Doblar"],
-        "boton funciones": [sacarJugador, plantarse, doblar],
-        mensajeIzquierda: "Repartiendo...",
-        mensajeDerecha: "Elige acción",
+    const turnoComputadora = (puntosMinimos) => {
+        let puntosComputadora = 0;
+
+        do {
+            const carta = pedirCarta();
+            puntosComputadora = acumularPuntos(carta, puntosJugadores.length - 1);
+            crearCarta(carta, puntosJugadores.length - 1);
+        } while (puntosComputadora < puntosMinimos && puntosMinimos <= 21);
+
+        determinarGanador();
     }
-];
 
-function actualizarUbicacion(ubicacion) {
-    boton1.innerText = ubicacion["boton texto"][0];
-    boton2.innerText = ubicacion["boton texto"][1];
-    boton3.innerText = ubicacion["boton texto"][2];
-    boton1.onclick = ubicacion["boton funciones"][0];
-    boton2.onclick = ubicacion["boton funciones"][1];
-    boton3.onclick = ubicacion["boton funciones"][2];
-    mensajeDerecha.innerText = ubicacion.mensajeDerecha;
-    mensajeIzquierda.innerText = ubicacion.mensajeIzquierda;
-}
+    /*
+     * EVENTOS
+     */
 
-actualizarUbicacion(ubicaciones[0]);
-mostrarCartas();
-mensajeIzquierda.innerText = 'Bienvenido al Blackjack';
-mensajeDerecha.innerText = 'Elige tu apuesta';
+    btnPedir.addEventListener('click', () => {
+        const carta         = pedirCarta();
+        const puntosJugador = acumularPuntos(carta, 0);
+        crearCarta(carta, 0);
+
+        if (puntosJugador > 21) {
+            btnPedir.disabled   = true;
+            btnDetener.disabled = true;
+            turnoComputadora(puntosJugador);
+        } else if (puntosJugador === 21) {
+            btnPedir.disabled   = true;
+            btnDetener.disabled = true;
+            turnoComputadora(puntosJugador);
+        }
+    });
+
+    btnDetener.addEventListener('click', () => {
+        btnDetener.disabled = true;
+        btnPedir.disabled   = true;
+        turnoComputadora(puntosJugadores[0]);
+    });
+
+    btnNuevo.addEventListener('click', () => {
+        inicializarJuego();
+    });
+
+    return {
+        nuevoJuego: inicializarJuego
+    };
+
+})();
