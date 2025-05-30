@@ -3,26 +3,26 @@ const miModulo = (() => {
     'use strict'
 
     // Arreglos y constantes para el manejo del deck
-    let deck         = [];
-    const tipos      = ['C', 'D', 'H', 'S'],
-          especiales = ['A', 'J', 'K', 'Q'];
+    let deck = [];
+    const tipos = ['C', 'D', 'H', 'S'],
+        especiales = ['A', 'J', 'K', 'Q'];
 
     // Referencias HTML
-    const btnPedir           = document.querySelector('#btnPedir'),
-          btnDetener         = document.querySelector('#btnDetener'),
-          btnNuevo           = document.querySelector('#btnNuevo');
-          
-    const puntosHTML         = document.querySelectorAll('span'),
-          divCartasJugadores = document.querySelectorAll('.divCartas');
+    const btnPedir = document.querySelector('#btnPedir'),
+        btnDetener = document.querySelector('#btnDetener'),
+        btnNuevo = document.querySelector('#btnNuevo');
+
+    const puntosHTML = document.querySelectorAll('.content-player span'),
+        divCartasJugadores = document.querySelectorAll('.divCartas');
 
     let puntosJugadores = [];
 
-    /*
-     * FUNCIONES
-     */
+    // FUNCIONES
+    const inicializarJuego = (numJugadores = 2) => {
+        document.getElementById('resultado').innerHTML = '';
+        document.querySelector('.resultado-box').style.background = 'none';
 
-    const inicializarJuego = ( numJugadores = 2 ) => {
-        deck            = crearDeck();
+        deck = crearDeck();
         puntosJugadores = [];
 
         for (let i = 0; i < numJugadores; i++) {
@@ -33,7 +33,7 @@ const miModulo = (() => {
         divCartasJugadores.forEach(elem => elem.innerHTML = '');
 
         btnDetener.disabled = false;
-        btnPedir.disabled   = false;
+        btnPedir.disabled = false;
     }
 
     // Crear y barajar el deck
@@ -52,7 +52,7 @@ const miModulo = (() => {
             }
         }
 
-        return _.shuffle(deck); // Requiere underscore.js
+        return _.shuffle(deck); // underscore.js
     }
 
     const pedirCarta = () => {
@@ -80,17 +80,27 @@ const miModulo = (() => {
 
     const determinarGanador = () => {
         const [puntosMinimos, puntosComputadora] = puntosJugadores;
+        const resultadoBox = document.querySelector('.resultado-box');
+        const mensajeResultado = document.getElementById('resultado');
 
-        setTimeout(() => {
-            if (puntosMinimos === puntosComputadora) {
-                alert('¡Empate!');
-            } else if ((puntosMinimos > puntosComputadora && puntosMinimos <= 21) || puntosComputadora > 21) {
-                alert('¡Ganaste!');
-            } else {
-                alert('¡Perdiste!');
-            }
-        }, 100);
-    }
+        resultadoBox.style.background = '#333333';
+        let mensaje = `
+        <p>Jugador: <b>${puntosMinimos}</b> - Computadora: <b>${puntosComputadora}</b></p>
+    `;
+
+        if (puntosMinimos === puntosComputadora) {
+            mensaje += `<p><b>¡Empate!</b></p>`;
+        } else if ((puntosMinimos > puntosComputadora && puntosMinimos <= 21) || puntosComputadora > 21) {
+            mensaje += `<p class="text-success"><b>¡Ganaste!</b></p>`;
+        } else {
+            mensaje += `<p class="text-danger"><b>¡Perdiste!</b></p>`;
+        }
+
+        mensaje += '';
+
+        mensajeResultado.innerHTML = mensaje;
+    };
+
 
     const turnoComputadora = (puntosMinimos) => {
         let puntosComputadora = 0;
@@ -104,21 +114,19 @@ const miModulo = (() => {
         determinarGanador();
     }
 
-    /*
-     * EVENTOS
-     */
+    // EVENTOS
 
     btnPedir.addEventListener('click', () => {
-        const carta         = pedirCarta();
+        const carta = pedirCarta();
         const puntosJugador = acumularPuntos(carta, 0);
         crearCarta(carta, 0);
 
         if (puntosJugador > 21) {
-            btnPedir.disabled   = true;
+            btnPedir.disabled = true;
             btnDetener.disabled = true;
             turnoComputadora(puntosJugador);
         } else if (puntosJugador === 21) {
-            btnPedir.disabled   = true;
+            btnPedir.disabled = true;
             btnDetener.disabled = true;
             turnoComputadora(puntosJugador);
         }
@@ -126,7 +134,7 @@ const miModulo = (() => {
 
     btnDetener.addEventListener('click', () => {
         btnDetener.disabled = true;
-        btnPedir.disabled   = true;
+        btnPedir.disabled = true;
         turnoComputadora(puntosJugadores[0]);
     });
 

@@ -1,32 +1,59 @@
-html,
-body {
-    margin: 0px auto;
-    max-width: 1000px;
-    color: whitesmoke;
-    background: #333333;
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 2rem;
 }
 
-span {
+.blackjack-container {
+    max-width: 62rem;
+}
+
+#divBotones {
+    padding: .8rem;
+}
+
+.content-player h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.content-player span {
     color: red;
-}
-
-.titulo {
-    background: #333333;
-    max-width: 1000px;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    font-size: 35px;
 }
 
 .carta {
     position: relative;
-    width: 150px;
-    left: 100px;
+    width: 9rem;
+    left: 6.3rem;
     margin-left: -75px;
+    object-fit: cover;
 }
 
 #jugador-cartas,
 #computadora-cartas {
-    height: 240px;
+    height: 15rem;
+    width: 100%;
+}
+
+.resultado-box {
+    width: 100%;
+    height: 7rem;
+    max-width: 20rem;
+    margin: 1rem auto;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-success{
+    color: #079217 !important;
+    margin: 0;
+}
+
+.text-danger{
+    color: #980808 !important;
+    margin: 0;
 }
