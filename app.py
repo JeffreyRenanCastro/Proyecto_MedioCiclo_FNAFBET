@@ -82,21 +82,21 @@ def menujuegos():
 def ruleta():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
-    usuario = Usuario.query.get(session['usuario_id'])
+    usuario = db.session.get(Usuario, session['usuario_id'])
     return render_template('juegos/ruleta.html', usuario=usuario)
 
-@app.route('/blackjack')
+@app.route('/blackjack' , methods=['GET', 'POST'])
 def blackjack():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
-    usuario = Usuario.query.get(session['usuario_id'])
+    usuario = db.session.get(Usuario, session['usuario_id'])
     return render_template('juegos/blackjack.html', usuario=usuario)
 
 @app.route('/snake')
 def snake():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
-    usuario = Usuario.query.get(session['usuario_id'])
+    usuario = db.session.get(Usuario, session['usuario_id'])
     return render_template('juegos/snake.html', usuario=usuario)
 
 @app.route('/tragamonedas', methods=['GET', 'POST'])
@@ -157,13 +157,18 @@ def estadisticas_mostrar():
             data[clave] = data.get(clave, 0) + 1
             
     elif tipo == 'blackjack':
-        query = ResultadosBlackjack.query
+        query = ResultadosBlackjack.query    
         if alcance == 'propias':
             query = query.filter_by(id_usuario=usuario.id)
         resultados = query.all()
         for r in resultados:
-            clave = r.resultado
-            data[clave] = data.get(clave, 0) + 1
+            if r.dinero_ganado > r.dinero_invertido:
+                clave = "Ganó"
+            elif r.dinero_ganado < r.dinero_invertido:
+                clave = "Perdió"
+            else:
+                clave = "Empate"
+            data[clave] = data.get(clave, 0) + 1  
 
     elif tipo == 'tragaperras':
         query = ResultadosTragaperras.query

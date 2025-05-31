@@ -192,41 +192,44 @@ bp_blackjack = Blueprint('blackjack_resultado', __name__)
 #metodo para guardar el resultado de blackjack
 @bp_blackjack.route('/guardar_resultado_blackjack', methods=['POST'])
 def guardar_resultado_blackjack():
+    print("Entrando a guardar resultado de blackjack")
+
     if 'usuario_id' not in session:
         return jsonify({"error": "Usuario no autenticado"}), 401
 
     data = request.get_json()
-    cartas_jugador = data.get('cartas_jugador', '')
-    cartas_crupier = data.get('cartas_crupier', '')
-    dinero_jugado = float(data.get('dinero_jugado', 0))
-    gano = data.get('gano', False)
-
-    dinero_ganado = dinero_jugado * 2 if gano else 0
-
+    cartas_jugador = data.get('cartas_jugador')
+    cartas_crupier = data.get('cartas_crupier')
+    dinero_jugado = data.get('dinero_jugado')
+    gano = data.get('gano') 
+    print("Datos recibidos:", cartas_jugador, cartas_crupier, dinero_jugado, gano)
     usuario = db.session.get(Usuario, session['usuario_id'])
-    if not usuario:
-        return jsonify({"error": "Usuario no encontrado"}), 404
 
-    if usuario.dinero is None or usuario.dinero < dinero_jugado:
-        return jsonify({"error": "Saldo insuficiente"}), 400
+    if not all([cartas_jugador, cartas_crupier]) or dinero_jugado is None:
+        return jsonify({'success': False, 'error': 'Datos incompletos'}), 400
+    print("Datos recibidos:", cartas_jugador, cartas_crupier, dinero_jugado, gano)
+    # Actualizar dinero
+    if gano == "gano":
+        dinero_ganado = dinero_jugado * 2
+    elif gano == "perdio":
+        dinero_ganado = 0    
+    else:
+        dinero_ganado = dinero_jugado
+    
+    usuario.dinero += (dinero_ganado - dinero_jugado)
 
-    # Guardar resultado
-    nuevo_resultado = ResultadosBlackjack(
+    nuevo = ResultadosBlackjack(
         id_usuario=usuario.id,
         cartas_jugador=cartas_jugador,
         cartas_crupier=cartas_crupier,
         dinero_invertido=dinero_jugado,
         dinero_ganado=dinero_ganado
     )
-    db.session.add(nuevo_resultado)
 
-    # Actualizar saldo del usuario
-    usuario.dinero -= dinero_jugado
-    usuario.dinero += dinero_ganado
-
+    db.session.add(nuevo)
     db.session.commit()
 
-    return jsonify({"saldo_actual": round(usuario.dinero, 2)}), 200   
+    return jsonify({'success': True, 'saldo_actual': round(usuario.dinero, 2)})
     
 
 #metodo para guardar los "depositos" de dinero

@@ -19,22 +19,30 @@ const miModulo = (() => {
 
     // FUNCIONES
     const inicializarJuego = (numJugadores = 2) => {
-        document.getElementById('resultado').innerHTML = '';
-        document.querySelector('.resultado-box').style.background = 'none';
+            const apuestaInput = document.getElementById('apuesta');
+            const apuesta = parseFloat(apuestaInput.value);
 
-        deck = crearDeck();
-        puntosJugadores = [];
+            if (isNaN(apuesta) || apuesta <= 0) {
+                alert("Por favor, ingrese una apuesta válida.");
+                return;
+            }
 
-        for (let i = 0; i < numJugadores; i++) {
-            puntosJugadores.push(0);
+            document.getElementById('resultado').innerHTML = '';
+            document.querySelector('.resultado-box').style.background = 'none';
+
+            deck = crearDeck();
+            puntosJugadores = [];
+
+            for (let i = 0; i < numJugadores; i++) {
+                puntosJugadores.push(0);
+            }
+
+            puntosHTML.forEach(elem => elem.innerText = 0);
+            divCartasJugadores.forEach(elem => elem.innerHTML = '');
+
+            btnDetener.disabled = false;
+            btnPedir.disabled = false;
         }
-
-        puntosHTML.forEach(elem => elem.innerText = 0);
-        divCartasJugadores.forEach(elem => elem.innerHTML = '');
-
-        btnDetener.disabled = false;
-        btnPedir.disabled = false;
-    }
 
     // Crear y barajar el deck
     const crearDeck = () => {
@@ -79,27 +87,58 @@ const miModulo = (() => {
     }
 
     const determinarGanador = () => {
-        const [puntosMinimos, puntosComputadora] = puntosJugadores;
-        const resultadoBox = document.querySelector('.resultado-box');
-        const mensajeResultado = document.getElementById('resultado');
+    const [puntosMinimos, puntosComputadora] = puntosJugadores;
+    const resultadoBox = document.querySelector('.resultado-box');
+    const mensajeResultado = document.getElementById('resultado');
 
-        resultadoBox.style.background = '#333333';
-        let mensaje = `
+    resultadoBox.style.background = '#333333';
+    let mensaje = `
         <p>Jugador: <b>${puntosMinimos}</b> - Computadora: <b>${puntosComputadora}</b></p>
     `;
 
-        if (puntosMinimos === puntosComputadora) {
-            mensaje += `<p><b>¡Empate!</b></p>`;
-        } else if ((puntosMinimos > puntosComputadora && puntosMinimos <= 21) || puntosComputadora > 21) {
-            mensaje += `<p class="text-success"><b>¡Ganaste!</b></p>`;
-        } else {
-            mensaje += `<p class="text-danger"><b>¡Perdiste!</b></p>`;
-        }
+    let gano = "perdio";
+    if (puntosMinimos === puntosComputadora) {
+        mensaje += `<p><b>¡Empate!</b></p>`;
+        gano = "empate";
+    } else if ((puntosMinimos > puntosComputadora && puntosMinimos <= 21) || puntosComputadora > 21) {
+        mensaje += `<p class="text-success"><b>¡Ganaste!</b></p>`;
+        gano = "gano";
+    } else {
+        mensaje += `<p class="text-danger"><b>¡Perdiste!</b></p>`;
+    }
 
-        mensaje += '';
+    mensajeResultado.innerHTML = mensaje;
 
-        mensajeResultado.innerHTML = mensaje;
+    const guardarResultado = () => {
+        const cartasJugador = Array.from(divCartasJugadores[0].querySelectorAll('img')).map(img => img.src.split('/').pop().replace('.png', ''));
+        const cartasCrupier = Array.from(divCartasJugadores[1].querySelectorAll('img')).map(img => img.src.split('/').pop().replace('.png', ''));
+
+        fetch('/guardar_resultado_blackjack', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cartas_jugador: cartasJugador.join(','),
+                cartas_crupier: cartasCrupier.join(','),
+                dinero_jugado: parseFloat(document.getElementById('apuesta').value),
+                gano: gano
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.saldo_actual !== undefined) {
+                document.getElementById('saldo').innerText = `Saldo: $${data.saldo_actual}`;
+            } else {
+                console.error(data);
+            }
+        })
+        .catch(err => console.error("Error al guardar resultado:", err));
     };
+
+    guardarResultado();
+};
+
 
 
     const turnoComputadora = (puntosMinimos) => {
