@@ -6,9 +6,9 @@ const cuadros = document.querySelectorAll('.cuadro');
 const btnReiniciar = document.querySelector('.juego-boton button');
 
 const combinacionesGanadoras = [
-  [0,1,2], [3,4,5], [6,7,8], // filas
-  [0,3,6], [1,4,7], [2,5,8], // columnas
-  [0,4,8], [2,4,6]           // diagonales
+  [0, 1, 2], [3, 4, 5], [6, 7, 8], // filas
+  [0, 3, 6], [1, 4, 7], [2, 5, 8], // columnas
+  [0, 4, 8], [2, 4, 6]           // diagonales
 ];
 
 function actualizarInfo(mensaje) {
@@ -37,6 +37,8 @@ function manejarClick(index) {
   tablero[index] = jugadorActual;
   cuadros[index].textContent = jugadorActual;
 
+  cuadros[index].classList.add(jugadorActual === '⭕' ? 'o-azul' : 'x-rojo');
+
   verificarGanador();
 
   if (juegoActivo) {
@@ -49,7 +51,10 @@ function reiniciarJuego() {
   jugadorActual = '⭕';
   juegoActivo = true;
   tablero = ['', '', '', '', '', '', '', '', ''];
-  cuadros.forEach(c => c.textContent = '');
+  cuadros.forEach(c => {
+    c.textContent = '';
+    c.classList.remove('o-azul', 'x-rojo');
+  });
   actualizarInfo(`Turno de ${jugadorActual}`);
 }
 

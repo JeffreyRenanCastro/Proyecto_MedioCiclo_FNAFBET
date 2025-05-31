@@ -1,5 +1,4 @@
 const miModulo = (() => {
-
     'use strict'
 
     // Arreglos y constantes para el manejo del deck
@@ -19,30 +18,32 @@ const miModulo = (() => {
 
     // FUNCIONES
     const inicializarJuego = (numJugadores = 2) => {
-            const apuestaInput = document.getElementById('apuesta');
-            const apuesta = parseFloat(apuestaInput.value);
+        const apuestaInput = document.getElementById('apuesta');
+        const apuesta = parseFloat(apuestaInput.value);
 
-            if (isNaN(apuesta) || apuesta <= 0) {
-                alert("Por favor, ingrese una apuesta válida.");
-                return;
-            }
-
-            document.getElementById('resultado').innerHTML = '';
-            document.querySelector('.resultado-box').style.background = 'none';
-
-            deck = crearDeck();
-            puntosJugadores = [];
-
-            for (let i = 0; i < numJugadores; i++) {
-                puntosJugadores.push(0);
-            }
-
-            puntosHTML.forEach(elem => elem.innerText = 0);
-            divCartasJugadores.forEach(elem => elem.innerHTML = '');
-
-            btnDetener.disabled = false;
-            btnPedir.disabled = false;
+        if (isNaN(apuesta) || apuesta <= 0) {
+            alert("Por favor, ingrese una apuesta válida.");
+            return;
         }
+
+        apuestaInput.disabled = true;
+
+        document.getElementById('resultado').innerHTML = '';
+        document.querySelector('.resultado-box').style.background = 'none';
+
+        deck = crearDeck();
+        puntosJugadores = [];
+
+        for (let i = 0; i < numJugadores; i++) {
+            puntosJugadores.push(0);
+        }
+
+        puntosHTML.forEach(elem => elem.innerText = 0);
+        divCartasJugadores.forEach(elem => elem.innerHTML = '');
+
+        btnDetener.disabled = false;
+        btnPedir.disabled = false;
+    }
 
     // Crear y barajar el deck
     const crearDeck = () => {
@@ -87,27 +88,33 @@ const miModulo = (() => {
     }
 
     const determinarGanador = () => {
-    const [puntosMinimos, puntosComputadora] = puntosJugadores;
-    const resultadoBox = document.querySelector('.resultado-box');
-    const mensajeResultado = document.getElementById('resultado');
+        const [puntosMinimos, puntosComputadora] = puntosJugadores;
+        const resultadoBox = document.querySelector('.resultado-box');
+        const mensajeResultado = document.getElementById('resultado');
 
-    resultadoBox.style.background = '#333333';
-    let mensaje = `
+        resultadoBox.style.background = '#333333';
+        let mensaje = `
         <p>Jugador: <b>${puntosMinimos}</b> - Computadora: <b>${puntosComputadora}</b></p>
     `;
 
-    let gano = "perdio";
-    if (puntosMinimos === puntosComputadora) {
-        mensaje += `<p><b>¡Empate!</b></p>`;
-        gano = "empate";
-    } else if ((puntosMinimos > puntosComputadora && puntosMinimos <= 21) || puntosComputadora > 21) {
-        mensaje += `<p class="text-success"><b>¡Ganaste!</b></p>`;
-        gano = "gano";
-    } else {
-        mensaje += `<p class="text-danger"><b>¡Perdiste!</b></p>`;
-    }
+        let gano = "perdio";
+        if (puntosMinimos === puntosComputadora) {
+            mensaje += `<p><b>¡Empate!</b></p>`;
+            gano = "empate";
+        } else if ((puntosMinimos > puntosComputadora && puntosMinimos <= 21) || puntosComputadora > 21) {
+            mensaje += `<p class="text-success"><b>¡Ganaste!</b></p>`;
+            gano = "gano";
+        } else {
+            mensaje += `<p class="text-danger"><b>¡Perdiste!</b></p>`;
+        }
 
-    mensajeResultado.innerHTML = mensaje;
+        mensajeResultado.innerHTML = mensaje;
+
+        mensajeResultado.innerHTML = mensaje;
+
+        guardarResultado();
+
+    };
 
     const guardarResultado = () => {
         const cartasJugador = Array.from(divCartasJugadores[0].querySelectorAll('img')).map(img => img.src.split('/').pop().replace('.png', ''));
@@ -125,21 +132,19 @@ const miModulo = (() => {
                 gano: gano
             })
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.saldo_actual !== undefined) {
-                document.getElementById('saldo').innerText = `Saldo: $${data.saldo_actual}`;
-            } else {
-                console.error(data);
-            }
-        })
-        .catch(err => console.error("Error al guardar resultado:", err));
+            .then(res => res.json())
+            .then(data => {
+                if (data.saldo_actual !== undefined) {
+                    document.getElementById('saldo').innerText = `Saldo: $${data.saldo_actual}`;
+                } else {
+                    console.error(data);
+                }
+            })
+            .catch(err => console.error("Error al guardar resultado:", err))
+            .finally(() => {
+                document.getElementById('apuesta').disabled = false; // 🔓 Habilitar apuesta
+            });
     };
-
-    guardarResultado();
-};
-
-
 
     const turnoComputadora = (puntosMinimos) => {
         let puntosComputadora = 0;
@@ -154,7 +159,6 @@ const miModulo = (() => {
     }
 
     // EVENTOS
-
     btnPedir.addEventListener('click', () => {
         const carta = pedirCarta();
         const puntosJugador = acumularPuntos(carta, 0);
@@ -186,3 +190,4 @@ const miModulo = (() => {
     };
 
 })();
+

@@ -1,167 +1,98 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "layout/base.html" %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FNAF.BET</title>
-  <link rel="icon" href="../static/Imagenes/LOGO.png" type="image/png">
+{% block title_Block %}{% endblock %}
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/de-index.css') }}">
+{% block head_Block %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/de-index.css') }}">
+{% endblock %}
 
+{% block page_Block %}{% endblock %}
 
-  <style>
-    html,
-    body {
-      height: 100%;
-    }
-
-    body {
-      display: flex;
-      flex-direction: column;
-    }
-
-    main {
-      flex: 1;
-    }
-  </style>
-</head>
-
-<body class="bg-dark text-light">
-  <div class="container-fluid p-3 bg-black d-flex align-items-center justify-content-between">
-    <div class="d-flex align-items-center">
-      <img src="../static/Image/LOGO.png" width="70" class="me-3">
-      <h1 class="m-0">FNAF<span class="text-info">.BET</span></h1>
+{% block contents_Block %}
+<!-- CONTENIDO PRINCIPAL -->
+<main class="container-fluid">
+  <div class="row">
+    <!-- Imágenes Izquierda -->
+    <div class="col-md-2 d-none d-md-block">
+      <div class="galeria-lateral">
+        <img src="{{ url_for('static', filename='Image/aside/izq1.png') }}" alt="izq" class="img-lateral">
+        <img src="{{ url_for('static', filename='Image/aside/izq2.png') }}" alt="izq" class="img-lateral">
+        <img src="{{ url_for('static', filename='Image/aside/izq3.webp') }}" alt="izq" class="img-lateral">
+        <img src="{{ url_for('static', filename='Image/aside/izq4.webp') }}" alt="izq" class="img-lateral">
+      </div>
     </div>
-    <div class="text-center">
-      <h2 class="m-0">WELCOME</h2>
+
+    <!-- Contenido central -->
+    <div class="col-md-8 mt-4">
+      <h3 class="text-center mb-4" style="font-family: 'Fredericka the Great', serif; font-weight: 400; font-style: normal;">REGLAS</h3>
+      <dl class="px-3" style="color: aliceblue;">
+        <dt class="fw-bold fs-5">Verificación de la Legalidad:</dt>
+        <dd>Asegúrate de que el sitio de juego esté legalmente autorizado y regulado por las autoridades competentes.
+        </dd>
+
+        <dt class="fw-bold fs-5">Edad Legal:</dt>
+        <dd>Solo participa en juegos de azar si tienes la edad legal requerida en tu jurisdicción.</dd>
+
+        <dt class="fw-bold fs-5">Juego Responsable:</dt>
+        <dd>Establece límites de tiempo y dinero para el juego, y no apuestes más de lo que puedas permitirte perder.
+        </dd>
+
+        <dt class="fw-bold fs-5">Información de Contacto:</dt>
+        <dd>Asegúrate de que el sitio proporcione información de contacto clara y acceso a servicios de atención al
+          cliente.</dd>
+
+        <dt class="fw-bold fs-5">Comprobación de Términos y Condiciones:</dt>
+        <dd>Lee detenidamente los términos y condiciones del sitio, incluidos los requisitos para bonos y promociones.
+        </dd>
+
+        <dt class="fw-bold fs-5">Protección de Datos:</dt>
+        <dd>Comprende cómo se recopilan, almacenan y utilizan tus datos personales, y asegúrate de estar de acuerdo
+          con la política de privacidad del sitio.</dd>
+
+        <dt class="fw-bold fs-5">Seguridad Financiera:</dt>
+        <dd>Utiliza métodos de pago seguros y mantén segura tu información financiera.</dd>
+
+        <dt class="fw-bold fs-5">Juegos Justos:</dt>
+        <dd>Asegúrate de que el sitio ofrezca juegos justos y esté respaldado por certificaciones de organismos
+          independientes.</dd>
+
+        <dt class="fw-bold fs-5">Concientización sobre el Juego:</dt>
+        <dd>Familiarízate con los recursos de juego responsable y busca ayuda si sientes que estás desarrollando
+          problemas con el juego.</dd>
+
+        <dt class="fw-bold fs-5">Publicidad Consciente:</dt>
+        <dd>No te dejes llevar por publicidades engañosas y asegúrate de entender completamente los términos de
+          cualquier oferta promocional.</dd>
+
+        <dt class="fw-bold fs-5">Protección contra el Fraude:</dt>
+        <dd>Reporta cualquier actividad sospechosa y coopera con el sitio para prevenir el fraude y el lavado de
+          dinero.</dd>
+
+        <dt class="fw-bold fs-5">Derechos del Usuario:</dt>
+        <dd>Familiarízate con tus derechos como usuario, incluido el acceso a tus datos personales y la capacidad de
+          cerrar tu cuenta si es necesario.</dd>
+      </dl>
     </div>
-    <div class="d-flex gap-3">
-      <a href="{{ url_for('registro') }}" class="btn btn-info">Join</a>
-      <a href="{{ url_for('login') }}" class="btn btn-outline-light">Log in</a>
+
+    <!-- Imágenes Derecha -->
+    <div class="col-md-2 d-none d-md-block">
+      <div class="galeria-lateral">
+        <img src="{{ url_for('static', filename='Image/aside/der1.jpg') }}" alt="der" class="img-lateral">
+        <img src="{{ url_for('static', filename='Image/aside/der2.webp') }}" alt="der" class="img-lateral">
+        <img src="{{ url_for('static', filename='Image/aside/der3.webp') }}" alt="der" class="img-lateral">
+        <img src="{{ url_for('static', filename='Image/aside/der4.jpg') }}" alt="der" class="img-lateral">
+      </div>
     </div>
   </div>
+</main>
+{% endblock %}
 
-  <!-- Flash Messages con animación y botón cerrar -->
-  <div class="container mt-3 position-fixed top-0 start-50 translate-middle-x" style="z-index: 1050;">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show shadow"
-      role="alert" style="animation: fadeIn 0.5s;">
-      {{ message }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
-  </div>
-
-  <style>
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
-
-  <script>
-    // Ocultar automáticamente después de 4 segundos
-    setTimeout(() => {
-      const alerts = document.querySelectorAll('.alert');
-      alerts.forEach(alert => {
-        alert.classList.remove('show');
-        alert.classList.add('hide');
-        setTimeout(() => alert.remove(), 500);
-      });
-    }, 4000);
-  </script>
+{% block footer_block %}
+<footer class="bg-black text-light text-center py-3">
+  ©2023 FNAF.BET. Todos los derechos reservados.
+</footer>
+{% endblock %}
 
 
-  <main class="container-fluid mt-4">
-    <div class="row">
-      <!-- Imágenes Izquierda -->
-      <div class="col-md-2 d-none d-md-block">
-        <div class="mb-3"><img src="../static/Image/perropoker.png" class="img-fluid rounded"></div>
-        <div class="mb-3"><img src="../static/Image/izq2.png" class="img-fluid rounded"></div>
-        <div><img src="../static/Image/izq3.png" class="img-fluid rounded"></div>
-      </div>
-
-      <!-- Contenido central -->
-      <div class="col-md-8">
-        <h3 class="text-center mb-4">REGLAS</h3>
-        <dl class="px-3" style="color: aliceblue;">
-          <dt class="fw-bold fs-5">Verificación de la Legalidad:</dt>
-          <dd>Asegúrate de que el sitio de juego esté legalmente autorizado y regulado por las autoridades competentes.
-          </dd>
-
-          <dt class="fw-bold fs-5">Edad Legal:</dt>
-          <dd>Solo participa en juegos de azar si tienes la edad legal requerida en tu jurisdicción.</dd>
-
-          <dt class="fw-bold fs-5">Juego Responsable:</dt>
-          <dd>Establece límites de tiempo y dinero para el juego, y no apuestes más de lo que puedas permitirte perder.
-          </dd>
-
-          <dt class="fw-bold fs-5">Información de Contacto:</dt>
-          <dd>Asegúrate de que el sitio proporcione información de contacto clara y acceso a servicios de atención al
-            cliente.</dd>
-
-          <dt class="fw-bold fs-5">Comprobación de Términos y Condiciones:</dt>
-          <dd>Lee detenidamente los términos y condiciones del sitio, incluidos los requisitos para bonos y promociones.
-          </dd>
-
-          <dt class="fw-bold fs-5">Protección de Datos:</dt>
-          <dd>Comprende cómo se recopilan, almacenan y utilizan tus datos personales, y asegúrate de estar de acuerdo
-            con la política de privacidad del sitio.</dd>
-
-          <dt class="fw-bold fs-5">Seguridad Financiera:</dt>
-          <dd>Utiliza métodos de pago seguros y mantén segura tu información financiera.</dd>
-
-          <dt class="fw-bold fs-5">Juegos Justos:</dt>
-          <dd>Asegúrate de que el sitio ofrezca juegos justos y esté respaldado por certificaciones de organismos
-            independientes.</dd>
-
-          <dt class="fw-bold fs-5">Concientización sobre el Juego:</dt>
-          <dd>Familiarízate con los recursos de juego responsable y busca ayuda si sientes que estás desarrollando
-            problemas con el juego.</dd>
-
-          <dt class="fw-bold fs-5">Publicidad Consciente:</dt>
-          <dd>No te dejes llevar por publicidades engañosas y asegúrate de entender completamente los términos de
-            cualquier oferta promocional.</dd>
-
-          <dt class="fw-bold fs-5">Protección contra el Fraude:</dt>
-          <dd>Reporta cualquier actividad sospechosa y coopera con el sitio para prevenir el fraude y el lavado de
-            dinero.</dd>
-
-          <dt class="fw-bold fs-5">Derechos del Usuario:</dt>
-          <dd>Familiarízate con tus derechos como usuario, incluido el acceso a tus datos personales y la capacidad de
-            cerrar tu cuenta si es necesario.</dd>
-        </dl>
-      </div>
-
-      <!-- Imágenes Derecha -->
-      <div class="col-md-2 d-none d-md-block">
-        <div class="mb-3"><img src="../static/Image/der1.jpg" class="img-fluid rounded"></div>
-        <div class="mb-3"><img src="../static/Image/der2.webp" class="img-fluid rounded"></div>
-        <div><img src="../static/Image/der3.webp" class="img-fluid rounded"></div>
-      </div>
-    </div>
-  </main>
-
-  <footer class="bg-black text-light text-center py-3">
-    ©2023 FNAF.BET. Todos los derechos reservados.
-  </footer>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+{% block scripts_Block %}
+{% endblock %}

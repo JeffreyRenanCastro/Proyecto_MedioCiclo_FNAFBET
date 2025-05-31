@@ -1,0 +1,27 @@
+{% extends "layout/base.html" %}
+
+{% block title_Block %}Juegos - {% endblock %}
+
+{% block head_Block %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/de-menujuegos.css') }}">
+{% endblock %}
+
+{% block page_Block %} - Menú de Juegos{% endblock %}
+
+{% block contents_Block %}
+<!-- OPCIONES DE JUEGOS -->
+<div class="game-options">
+  <a href="{{ url_for('snake') }}">
+    <img src="{{ url_for('static', filename='Image/snake_in.png') }}" alt="Snake">
+  </a>
+  <a href="{{ url_for('tresenraya') }}">
+    <img src="{{ url_for('static', filename='Image/tresenraya_in.png') }}" alt="Tres en Raya">
+  </a>
+</div>
+{% endblock %}
+
+{% block scripts_Block %}
+{% endblock %}
+
+{% block footer_block %}
+{% endblock %}

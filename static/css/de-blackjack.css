@@ -1,17 +1,46 @@
 .main-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-direction: row;
     gap: 2rem;
 }
 
-.blackjack-container {
-    max-width: 62rem;
+.controls-row {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: .9rem 0;
 }
 
-#divBotones {
-    padding: .8rem;
+.controls-row div {
+    padding: 0;
+    width: fit-content;
 }
+
+#apuesta {
+    width: 10.8rem;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    margin-top: .5rem;
+    flex-direction: row;
+    justify-items: space-around;
+    align-items: center;
+}
+
+
+.blackjack-container {
+    max-width: 56rem;
+    margin: 0;
+    padding: 0;
+}
+
 
 .content-player h3 {
     font-size: 1.6rem;
@@ -22,9 +51,14 @@
     color: red;
 }
 
+.divCartas {
+    margin: 0;
+    padding: 0;
+}
+
 .carta {
     position: relative;
-    width: 9rem;
+    width: 8.7rem;
     left: 6.3rem;
     margin-left: -75px;
     object-fit: cover;
@@ -32,15 +66,15 @@
 
 #jugador-cartas,
 #computadora-cartas {
-    height: 15rem;
+    height: 14.6rem;
     width: 100%;
 }
 
 .resultado-box {
     width: 100%;
     height: 7rem;
-    max-width: 20rem;
-    margin: 1rem auto;
+    max-width: 18rem;
+    margin: 2rem 1rem;
     text-align: center;
     box-sizing: border-box;
     display: flex;
@@ -48,12 +82,30 @@
     justify-content: center;
 }
 
-.text-success{
-    color: #079217 !important;
+.formulario .form-control {
+    background-color: #2d2c2c;
+    color: white;
+    border-color: #00b386;
+}
+
+.text-success {
+    color: #099f45 !important;
     margin: 0;
 }
 
-.text-danger{
-    color: #980808 !important;
+.text-danger {
+    color: #b00707 !important;
     margin: 0;
+}
+
+@media (max-width: 700px) {
+    .main-container {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .resultado-box {
+        margin-top: 1rem;
+        order: -1;
+    }
 }

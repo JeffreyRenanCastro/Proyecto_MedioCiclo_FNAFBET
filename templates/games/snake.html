@@ -1,0 +1,24 @@
+{% extends "layout/base.html" %}
+
+{% block title_Block %}Snake - {% endblock %}
+
+{% block head_Block %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/de-snake.css') }}">
+{% endblock %}
+
+{% block page_Block %} - Snake{% endblock %}
+
+{% block contents_Block %}
+<!-- JUEGO -->
+<div class="game-container">
+  <canvas width="600" height="600" id="game"></canvas>
+  <div class="control-panel">
+    <div id="score">Puntuación: 0</div>
+    <button class="btn-reiniciar" onclick="reiniciarJuego()">Reiniciar Juego</button>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts_Block %}
+<script src="{{url_for('static', filename='js/snake.js')}}"></script>
+{% endblock %}

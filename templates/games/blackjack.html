@@ -1,0 +1,64 @@
+{% extends "layout/base.html" %}
+
+{% block title_Block %}Blackjack - {% endblock %}
+
+{% block head_Block %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/de-blackjack.css') }}">
+{% endblock %}
+
+{% block page_Block %} - Blackjack de la Victoria{% endblock %}
+
+{% block contents_Block %}
+  <!-- Juego -->
+  <div class="main-container">
+    <!-- Botones -->
+    <div class="container blackjack-container">
+      <div class="controls-row">
+        <div id="divBotones" class="text-center">
+          <button id="btnNuevo" class="btn btn-danger">Nuevo Juego</button>
+          <button id="btnPedir" disabled class="btn btn-primary">Pedir Carta</button>
+          <button id="btnDetener" disabled class="btn btn-primary">Detener</button>
+        </div>
+        <div class="text-center formulario">
+          <label for="apuesta" class="form-label fw-bold">💵 Apuesta:</label>
+          <input type="number" id="apuesta" class="form-control d-inline" placeholder="Ingrese su apuesta" min="1"
+            step="0.10">
+        </div>
+      </div>
+
+      <!-- Cartas -->
+      <div class="row container mt-2">
+        <div class="col content-player">
+          <h3>Jugador 1 - <span>0</span></h3>
+          <div id="jugador-cartas" class="divCartas"></div>
+        </div>
+      </div>
+      <div class="row container mt-2">
+        <div class="col content-player">
+          <h3>Computadora - <span>0</span></h3>
+          <div id="computadora-cartas" class="divCartas"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="resultado-box">
+      <div id="resultado"></div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block scripts_Block %}
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+<script src="{{url_for('static', filename='js/blackjack.js')}}"></script>
+<script>
+  const apuestaInput = document.getElementById('apuesta');
+  apuestaInput.addEventListener('blur', () => {
+    const valor = parseFloat(apuestaInput.value);
+    if (!isNaN(valor)) {
+      apuestaInput.value = valor.toFixed(2);
+    }
+  });
+</script>
+{% endblock %}

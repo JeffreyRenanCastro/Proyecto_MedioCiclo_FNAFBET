@@ -267,7 +267,7 @@ def depositar_dinero():
         flash("Depósito exitoso.")
         return redirect(url_for('principal'))  # Puedes redirigir a donde gustes
 
-    return render_template("cuenta/depositar.html")
+    return render_template("transactions/depositar.html")
 
 #metodo para guardar el resultado del juego de snake
 bp_snake_resultado = Blueprint('snake_resultado', __name__)

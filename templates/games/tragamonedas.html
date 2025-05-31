@@ -1,0 +1,38 @@
+{% extends "layout/base.html" %}
+
+{% block title_Block %}Tragamonedas - {% endblock %}
+
+{% block head_Block %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/de-tragamonedas.css') }}">
+{% endblock %}
+
+{% block page_Block %} - Tragamonedas de la Victoria{% endblock %}
+
+{% block contents_Block %}
+  <!-- JUEGO -->
+  <div id="slot">
+    <div class="slot-machine">
+      <div class="reel">
+        <div class="symbols" id="symbols1"></div>
+      </div>
+      <div class="reel">
+        <div class="symbols" id="symbols2"></div>
+      </div>
+      <div class="reel">
+        <div class="symbols" id="symbols3"></div>
+      </div>
+    </div>
+    <button class="btn btn-info w-100 mb-3" onclick="spin()">Girar</button>
+    <p id="result"></p>
+    <div id="stats" style="font-size: 20px;">
+      <p>Unidades jugadas: <span id="jugadas">0</span></p>
+      <p>Unidades ganadas: <span id="ganadas">0</span></p>
+      <div id="saldo" style="color: gold; font-size: 24px;">Saldo: ${{ saldo | round(2) }}</div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block scripts_Block %}
+<script src="{{url_for('static', filename='js/tragaMonedas.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "layout/base.html" %}
+
+{% block title_Block %}Tres en Raya - {% endblock %}
+
+{% block head_Block %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/de-tresenraya.css') }}">
+{% endblock %}
+
+{% block page_Block %} - Tres en Raya{% endblock %}
+
+{% block contents_Block %}
+<!-- JUEGO -->
+  <div class="contenedor-juego">
+    <h2 class="mb-3">TRES EN RAYA</h2>
+    <p id="juego-info" class="juego-info"></p>
+
+    <div class="juego-cuadricula">
+      <div class="cuadro"></div>
+      <div class="cuadro"></div>
+      <div class="cuadro"></div>
+      <div class="cuadro"></div>
+      <div class="cuadro"></div>
+      <div class="cuadro"></div>
+      <div class="cuadro"></div>
+      <div class="cuadro"></div>
+      <div class="cuadro"></div>
+    </div>
+
+    <div class="juego-boton">
+      <button class="btn" onclick="reiniciarJuego()">Volver a jugar</button>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts_Block %}
+<script src="{{url_for('static', filename='js/tresenraya.js')}}"></script>
+{% endblock %}
+
+

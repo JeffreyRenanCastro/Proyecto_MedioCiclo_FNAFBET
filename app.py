@@ -36,15 +36,20 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 @app.route('/')
 def home():
+    if 'usuario_id' in session:
+        return redirect(url_for('principal'))
     return render_template('index.html')
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'usuario_id' in session:
+        return redirect(url_for('principal'))
     return render_template('auth/login.html')
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
+    if 'usuario_id' in session:
+        return redirect(url_for('principal'))
     return render_template('auth/registro.html')
 
 @app.route('/logout')
@@ -69,35 +74,35 @@ def principal():
 def terminos():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
-    return render_template('terminos.html')
+    return render_template('others/terminos.html')
 
 @app.route('/menujuegos')
 def menujuegos():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
     usuario = Usuario.query.get(session['usuario_id'])
-    return render_template('juegos/menujuegos.html', usuario=usuario)
+    return render_template('games/menujuegos.html', usuario=usuario)
 
 @app.route('/ruleta')
 def ruleta():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
     usuario = db.session.get(Usuario, session['usuario_id'])
-    return render_template('juegos/ruleta.html', usuario=usuario)
+    return render_template('games/ruleta.html', usuario=usuario)
 
 @app.route('/blackjack' , methods=['GET', 'POST'])
 def blackjack():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
     usuario = db.session.get(Usuario, session['usuario_id'])
-    return render_template('juegos/blackjack.html', usuario=usuario)
+    return render_template('games/blackjack.html', usuario=usuario)
 
 @app.route('/snake')
 def snake():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
     usuario = db.session.get(Usuario, session['usuario_id'])
-    return render_template('juegos/snake.html', usuario=usuario)
+    return render_template('games/snake.html', usuario=usuario)
 
 @app.route('/tragamonedas', methods=['GET', 'POST'])
 def tragamonedas():
@@ -108,20 +113,20 @@ def tragamonedas():
         usuario = Usuario.query.get(session['usuario_id'])
         if usuario and usuario.dinero is not None:
             saldo = float(usuario.dinero)
-    return render_template('juegos/tragamonedas.html', saldo=saldo , usuario=usuario)
+    return render_template('games/tragamonedas.html', saldo=saldo , usuario=usuario)
 
 @app.route('/tresenraya')
 def tresenraya():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
     usuario =Usuario.query.get(session['usuario_id'])
-    return render_template('juegos/tresenraya.html', usuario=usuario)
+    return render_template('games/tresenraya.html', usuario=usuario)
 
 @app.route("/Depositar", methods=['GET', 'POST'])
 def Depositar():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
-    return render_template('cuenta/depositar.html')
+    return render_template('transactions/depositar.html')
 
 @app.route("/retirar", methods=['GET', 'POST'])
 def retirar():
@@ -129,7 +134,7 @@ def retirar():
         return redirect(url_for('login'))
     usuario_id = session['usuario_id']
     cuentas = CuentaBancaria.query.filter_by(id_usuario=usuario_id).all()
-    return render_template('cuenta/retirar.html', cuentas=cuentas)
+    return render_template('transactions/retirar.html', cuentas=cuentas)
 
 @app.route("/Cuenta_bancaria", methods=['GET', 'POST'])
 def Cuenta_bancaria():
@@ -188,7 +193,7 @@ def estadisticas_mostrar():
             puntos = str(r.puntuacion)
             data[puntos] = data.get(puntos, 0) + 1
 
-    return render_template("estadisticas.html", usuario=usuario, data=data, tipo=tipo, alcance=alcance)
+    return render_template("statistics/estadisticas.html", usuario=usuario, data=data, tipo=tipo, alcance=alcance)
     
 
 # Inicializar db con la app creada
