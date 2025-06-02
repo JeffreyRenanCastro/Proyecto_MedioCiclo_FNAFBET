@@ -5,7 +5,7 @@
 # Jhon David Burgos Panta
 # jeffrey Renan Castro Velez
 # John Alexander Pincay Baque
-# megan 
+# Megan Yasmina Mieles Loor
 
 
 # Librerías necesarias de flask y SQLAlchemy
