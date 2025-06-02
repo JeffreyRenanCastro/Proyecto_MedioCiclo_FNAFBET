@@ -82,7 +82,7 @@ async function girarRuleta() {
   const cantidad = parseFloat(document.getElementById('dinero_apostado').value);
 
   if (!valor || isNaN(cantidad) || cantidad <= 0) {
-    alert("Por favor ingresa valores válidos.");
+    alert("Por favor ingresa valores válidos para la apuesta.");
     return;
   }
 

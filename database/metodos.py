@@ -190,6 +190,29 @@ def jugar_ruleta():
     
 bp_blackjack = Blueprint('blackjack_resultado', __name__)
 #metodo para guardar el resultado de blackjack
+@bp_blackjack.route('/comprobar_dinero_blackjack', methods=['POST'])
+def comprobar_dinero_blackjack():
+    
+    if 'usuario_id' not in session:
+        return jsonify({"error": "Usuario no autenticado"}), 401
+
+    data = request.get_json()
+    
+    dinero_jugado = float(data.get('dinero_jugado', 0))
+    
+    if dinero_jugado <= 0:
+        return jsonify({"error": "La apuesta debe ser mayor que cero"}), 400
+
+    usuario = db.session.get(Usuario, session['usuario_id'])
+    if not usuario:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    if usuario.dinero is None or usuario.dinero < dinero_jugado:
+        return jsonify({"error": "Saldo insuficiente"}), 400
+
+    return jsonify({"success": True, "saldo_actual": round(usuario.dinero, 2)})
+
+
 @bp_blackjack.route('/guardar_resultado_blackjack', methods=['POST'])
 def guardar_resultado_blackjack():
     print("Entrando a guardar resultado de blackjack")
