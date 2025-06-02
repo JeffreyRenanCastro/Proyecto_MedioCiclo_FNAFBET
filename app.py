@@ -5,7 +5,7 @@
 # Jhon David Burgos Panta
 # jeffrey Renan Castro Velez
 # John Alexander Pincay Baque
-# megan 
+# Megan Yasmina Mieles Loor
 
 
 # Librerías necesarias de flask y SQLAlchemy
@@ -30,10 +30,23 @@ app.secret_key = 'clave_secreta'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://fnafbeta:Fnaf123!@localhost/fnafbet'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+#Contexto de sesion de usuario por defecto en todas las plantillas
+@app.context_processor
+def inject_usuario():
+    usuario = None
+    if 'usuario_id' in session:
+        usuario = Usuario.query.get(session['usuario_id'])
+    return dict(usuario=usuario)
 
+#Obtener la cantidad de dinero del usuario
+@app.route('/auth/dinero_usuario')
+def obtener_dinero_usuario():
+    if 'usuario_id' not in session:
+        return {'error': 'No autorizado'}, 401
+    usuario = Usuario.query.get(session['usuario_id'])
+    return {'dinero': round(usuario.dinero, 2)}
 
 #inializar las rutas de los html pa que se puedan ver en flask
-
 @app.route('/')
 def home():
     if 'usuario_id' in session:
@@ -140,7 +153,7 @@ def retirar():
 def Cuenta_bancaria():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
-    return render_template('cuenta/cuenta_bancaria.html')
+    return render_template('transactions/cuenta_bancaria.html')
 
 @app.route("/estadisticas_mostrar", methods=['GET', 'POST'])
 def estadisticas_mostrar():

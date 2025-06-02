@@ -82,6 +82,12 @@
     justify-content: center;
 }
 
+#saldo {
+    color: gold;
+    margin-top: 4px;
+    font-weight: bold;
+}
+
 .formulario .form-control {
     background-color: #2d2c2c;
     color: white;

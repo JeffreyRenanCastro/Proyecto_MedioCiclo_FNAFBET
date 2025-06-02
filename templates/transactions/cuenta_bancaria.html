@@ -1,98 +1,50 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "layout/base.html" %}
 
-<head>
+{% block title_Block %}Cuenta Bancaria - {% endblock %}
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block head_Block %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/de-transacciones.css') }}">
+{% endblock %}
 
-    <title>FNAF.BET</title>
-    <!-- Aniadir logo de favicon a la pagina-->
-    <link rel="icon" href="../../static/image/LOGO.png" type="image/png">
-    <!-- LLamar al Css-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/de-index.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/de-depositar.css') }}">
+{% block page_Block %} - Registro de Cuenta Bancaria {% endblock %}
 
-
-</head>
-
-<body style="display:inline-flexbox;">
-
-
-
-    <!-- Cabecera parte superior -->
-    <header class="encima" style="display: flex; ">
-
-        <!-- Codigo logo imagen-->
-        <div style="padding-top: 10px; margin-left: 50px; ">
-            <div style="position: absolute; padding-top: 22px;">
-                <img style="width: 100px" src="../../static/Image/LOGO.png">
-            </div>
-            <div style="padding-left: 80px; padding-top:10px ">
-
-                <a href="../principal.html" style="text-decoration: none;">
-                    <h1 class="Roboto" style="color: white">FNAF<h style="color:aqua">.BET</h>
-                    </h1>
-                </a>
-
-            </div>
-        </div>
-
-        <button type="button" class="icono_rayas">
-            <img src="../../static/Image/BOTON FOTO.png" href="../" alt="Botón con imagen">
-
-        </button>
-
-    </header>
-
-    <!-- Fondo y cierre de la cabecera superior -->
-    <div>
-        <div class="cabecera"></div>
-        <div class="fondoizqui1"></div>
-    </div>
-
-    <!--Depositar-->
+{% block contents_Block %}
+<!-- Botones Izquierda -->
+<nav>
     <a href="{{ url_for('Depositar') }}">
-        <button class="cuadro" style="left: 60px; top: 12rem">
-            <div class="padre Roboto ">
-                <h1 class="contorno" style="margin-top:10px; color: white">
-                    Depo<h style="color:aqua">sitar</h>
+        <button class="cuadro" style="left: 60px; top: 12rem;">
+            <div class="padre Roboto">
+                <h1 class="contorno" style="margin-top:10px; color: white;">
+                    Depo<span style="color:#00b386">sitar</span>
                 </h1>
             </div>
         </button>
     </a>
 
-    <!--Retirar-->
     <a href="{{ url_for('retirar') }}">
-        <button class="cuadro" style=" left: 60px; top: 24rem">
-            <div class="padre Roboto ">
-                <h1 class="contorno" style="margin-top:10px; color: white">
-                    Ret<h style="color:aqua">irar</h>
+        <button class="cuadro" style="left: 60px; top: 24rem;">
+            <div class="padre Roboto">
+                <h1 class="contorno" style="margin-top:10px; color: white;">
+                    Ret<span style="color:#00b386">irar</span>
                 </h1>
             </div>
         </button>
     </a>
 
-    <!--Cuenta Bancaria-->
     <a href="{{ url_for('Cuenta_bancaria') }}">
-        <!--Cuenta Bancaria-->
-        <button class="cuadro1" style="left: 60px; top: 36rem">
-            <div class="padre Roboto ">
-                <h1 class="contorno" style="margin-top:-4px; color: white">
-                    Cuenta<h style="color:aqua"><br>Bancaria</h>
+        <button class="cuadro1" style="left: 60px; top: 36rem;">
+            <div class="padre Roboto">
+                <h1 class="contorno" style="margin-top:-4px; color: white;">
+                    Cuenta<span style="color:#00b386"><br>Bancaria</span>
                 </h1>
             </div>
         </button>
     </a>
+</nav>
 
-    <!--cuadro medio-->
-    <style>
-        ::placeholder {
-            font-size: 0.7em;
-        }
-    </style>
-    
-    <form action="{{ url_for('cuenta.guardar_cuenta_bancaria') }}" method="POST" class="Roboto cuadro5" style="font-size: 15px;">
+<!--cuadro medio-->
+<form action="{{ url_for('cuenta.guardar_cuenta_bancaria') }}" method="POST" class="cuadro5 formulario"
+    style="font-size: 15px;">
 
     <div>
         <h1 style="color: aliceblue; margin-left:32rem; margin-top:4.3rem">Banco</h1>
@@ -112,23 +64,10 @@
     <button type="submit" class="cuadro10"><b>Guardar</b></button>
 </form>
 
-    <div style="position: absolute; left: 15rem; top: 7rem;">
-    <a href="{{ url_for('principal') }}"> <img src="../../static/Image/casita.png"
-            style="width: 50px;position:absolute; left: 50px;"></a>
-</div>
+{% endblock %}
 
+{% block scripts_Block %}
+{% endblock %}
 
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="flash-message flash-{{ 'success' if category == 'success' else 'error' }}">
-        {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
-
-</body>
-
-</html>
+{% block footer_block %}
+{% endblock %}

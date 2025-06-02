@@ -212,7 +212,7 @@ def guardar_resultado_blackjack():
     if gano == "gano":
         dinero_ganado = dinero_jugado * 2
     elif gano == "perdio":
-        dinero_ganado = 0    
+        dinero_ganado = 0  
     else:
         dinero_ganado = dinero_jugado
     

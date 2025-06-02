@@ -108,23 +108,24 @@ const miModulo = (() => {
             mensaje += `<p class="text-danger"><b>¡Perdiste!</b></p>`;
         }
 
-        mensajeResultado.innerHTML = mensaje;
+        mensaje += `<div id='saldo'></div>`;
 
         mensajeResultado.innerHTML = mensaje;
 
-        guardarResultado();
+        mensajeResultado.innerHTML = mensaje;
+
+        guardarResultado(gano);
 
     };
 
-    const guardarResultado = () => {
+    const guardarResultado = (gano) => {
         const cartasJugador = Array.from(divCartasJugadores[0].querySelectorAll('img')).map(img => img.src.split('/').pop().replace('.png', ''));
         const cartasCrupier = Array.from(divCartasJugadores[1].querySelectorAll('img')).map(img => img.src.split('/').pop().replace('.png', ''));
 
         fetch('/guardar_resultado_blackjack', {
+            
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: {'Content-Type': 'application/json' },
             body: JSON.stringify({
                 cartas_jugador: cartasJugador.join(','),
                 cartas_crupier: cartasCrupier.join(','),
@@ -142,7 +143,7 @@ const miModulo = (() => {
             })
             .catch(err => console.error("Error al guardar resultado:", err))
             .finally(() => {
-                document.getElementById('apuesta').disabled = false; // 🔓 Habilitar apuesta
+                document.getElementById('apuesta').disabled = false;
             });
     };
 
