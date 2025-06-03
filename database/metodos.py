@@ -192,7 +192,7 @@ bp_blackjack = Blueprint('blackjack_resultado', __name__)
 #metodo para guardar el resultado de blackjack
 @bp_blackjack.route('/comprobar_dinero_blackjack', methods=['POST'])
 def comprobar_dinero_blackjack():
-    
+    print("aaaaaaaaaa")
     if 'usuario_id' not in session:
         return jsonify({"error": "Usuario no autenticado"}), 401
 

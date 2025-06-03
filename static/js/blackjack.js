@@ -18,16 +18,15 @@ const miModulo = (() => {
 
     // FUNCIONES
     const inicializarJuego = (numJugadores = 2) => {
-    const apuestaInput = document.getElementById('apuesta');
-    const apuesta = parseFloat(apuestaInput.value);
+        const apuestaInput = document.getElementById('apuesta');
+        const apuesta = parseFloat(apuestaInput.value);
 
-    if (isNaN(apuesta) || apuesta <= 0) {
-        alert("Por favor, ingrese una apuesta válida.");
-        return;
-    }
+        if (isNaN(apuesta) || apuesta <= 0) {
+            alert("Por favor, ingrese una apuesta válida.");
+            return;
+        }
 
-    // Comprobar si el saldo es suficiente
-    fetch('/comprobar_dinero_blackjack', {
+        fetch('/comprobar_dinero_blackjack', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ dinero_jugado: apuesta })  // Corregido nombre de variable
@@ -39,8 +38,8 @@ const miModulo = (() => {
             return;
         }
 
-        // Solo aquí se inicializa todo
         apuestaInput.disabled = true;
+
         document.getElementById('resultado').innerHTML = '';
         document.querySelector('.resultado-box').style.background = 'none';
 
@@ -56,12 +55,7 @@ const miModulo = (() => {
 
         btnDetener.disabled = false;
         btnPedir.disabled = false;
-
-        // Llamar a la función que maneja el juego una vez validado
-        iniciarJuego(numJugadores, apuesta);
-    })
-    .catch(err => console.error("Error al verificar saldo:", err));
-}
+})    }
 
     // Crear y barajar el deck
     const crearDeck = () => {
@@ -130,6 +124,7 @@ const miModulo = (() => {
 
         mensajeResultado.innerHTML = mensaje;
 
+        mensajeResultado.innerHTML = mensaje;
 
         guardarResultado(gano);
 
@@ -208,4 +203,3 @@ const miModulo = (() => {
     };
 
 })();
-
