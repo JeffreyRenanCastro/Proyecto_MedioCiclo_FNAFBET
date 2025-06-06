@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify
 from database import db
-from database.models import Usuario, ResultadosTragaperras, ResultadosRuleta, ResultadosBlackjack, Deposito, ResultadosSnake, CuentaBancaria, retirar
+from database.models import Usuario, ResultadosTragaperras, ResultadosRuleta, ResultadosBlackjack,  ResultadosSnake, RegistroBancario, Deposito, retirar
 from datetime import datetime
 
 
@@ -186,8 +186,7 @@ def jugar_ruleta():
         "dinero_ganado": dinero_ganado,
         "saldo_actual": round(usuario.dinero, 2)
     })
-    
-    
+     
 bp_blackjack = Blueprint('blackjack_resultado', __name__)
 #metodo para guardar el resultado de blackjack
 @bp_blackjack.route('/comprobar_dinero_blackjack', methods=['POST'])
@@ -255,43 +254,6 @@ def guardar_resultado_blackjack():
     return jsonify({'success': True, 'saldo_actual': round(usuario.dinero, 2)})
     
 
-#metodo para guardar los "depositos" de dinero
-bp_deposito = Blueprint('depositar_dinero', __name__)
-
-@bp_deposito.route('/depositar_dinero', methods=['GET', 'POST'])
-def depositar_dinero():
-    if 'usuario_id' not in session:
-        return redirect(url_for('login'))
-
-    if request.method == 'POST':
-        try:
-            monto = float(request.form.get('monto', 0))
-        except ValueError:
-            return "Monto inválido", 400
-
-        if monto <= 0:
-            return "Monto debe ser mayor a 0", 400
-
-        usuario = db.session.get(Usuario, session['usuario_id'])
-        if not usuario:
-            return "Usuario no encontrado", 404
-
-        # Actualizar saldo del usuario
-        usuario.dinero = (usuario.dinero or 0) + monto
-
-        # Registrar en la tabla de depósitos
-        nuevo_deposito = Deposito(
-            id_usuario=usuario.id,
-            cantidad=monto
-        )
-        db.session.add(nuevo_deposito)
-        db.session.commit()
-
-        flash("Depósito exitoso.")
-        return redirect(url_for('principal'))  # Puedes redirigir a donde gustes
-
-    return render_template("transactions/depositar.html")
-
 #metodo para guardar el resultado del juego de snake
 bp_snake_resultado = Blueprint('snake_resultado', __name__)
 
@@ -313,56 +275,111 @@ def guardar_resultado_snake():
 
     return jsonify({"ok": True})
 
-#metodo para guardar la cuenta bancaria
+# Blueprint para registro bancario (Targeta de credito algun dia tambien algun banco )
 bp_cuenta = Blueprint('cuenta', __name__)
 
-@bp_cuenta.route('/guardar_cuenta_bancaria', methods=['POST'])
-def guardar_cuenta_bancaria():
+@bp_cuenta.route('/guardar_registro_bancario', methods=['POST'])
+def guardar_registro_bancario():
     if 'usuario_id' not in session:
-        flash("Debes iniciar sesión para guardar una cuenta bancaria.", "error")
+        flash("Debes iniciar sesión para guardar una tarjeta.", "error")
         return redirect(url_for('login'))
 
-    nombre_banco = request.form.get('nombre_banco', '').strip()
-    cedula = request.form.get('cedula', '').strip()
-    numero_cuenta = request.form.get('numero_cuenta', '').strip()
+    titular = request.form.get('titular', '').strip()
+    numero_tarjeta = request.form.get('numTarjeta', '').strip()
+    mes = request.form.get('mes', '').strip()
+    anio = request.form.get('anio', '').strip()
+    codigo_seguridad = request.form.get('codSeguridad', '').strip()
 
-    # Validación: campos vacíos
-    if not nombre_banco or not cedula or not numero_cuenta:
+    if not all([titular, numero_tarjeta, mes, anio, codigo_seguridad]):
         flash("Todos los campos son obligatorios.", "error")
-        return redirect(url_for('Cuenta_bancaria'))
+        return redirect(url_for('registro_bancario'))
 
-    nueva_cuenta = CuentaBancaria(
+    nueva_tarjeta = RegistroBancario(
         id_usuario=session['usuario_id'],
-        nombre_banco=nombre_banco,
-        cedula=cedula,
-        numero_cuenta=numero_cuenta
+        titular=titular,
+        numero_tarjeta=numero_tarjeta,
+        mes_expiracion=mes,
+        anio_expiracion=anio,
+        codigo_seguridad=codigo_seguridad
     )
 
-    db.session.add(nueva_cuenta)
+    db.session.add(nueva_tarjeta)
     db.session.commit()
 
-    flash("Cuenta bancaria guardada con éxito.", "success")
-    return redirect(url_for('Cuenta_bancaria'))
+    flash("Tarjeta registrada con éxito.", "success")
+    return redirect(url_for('registro_bancario'))
+
+
+bp_transaccion = Blueprint('transaccion', __name__)
+
+#metodo para guardar los "depositos" de dinero
+@bp_transaccion.route('/depositar_dinero', methods=['GET', 'POST'])
+def depositar_dinero():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
+
+    usuario_id = session['usuario_id']
+    cuentas = RegistroBancario.query.filter_by(id_usuario=usuario_id).all()
+
+    if request.method == 'POST':
+        try:
+            cuenta_id = request.form.get('cuenta_id')
+            cantidad = float(request.form['cantidad'])
+        except ValueError:
+            return "cantidad inválida", 400
+
+        if not cuenta_id or not cantidad:
+            flash("Por favor, selecciona una cuenta y especifica una cantidad.", "error")
+            return redirect(url_for('transacciones'))
+
+        if cantidad <= 0:
+            flash("cantidad debe ser mayor a 0", "error")
+            return redirect(url_for('transacciones'))
+
+        usuario = db.session.get(Usuario, session['usuario_id'])
+        if not usuario:
+            flash("Usuario no encontrado", "error")
+            return redirect(url_for('transacciones'))
+
+        # Actualizar saldo del usuario
+        usuario.dinero = (usuario.dinero or 0) + cantidad
+
+        # Registrar en la tabla de depósitos
+        nuevo_deposito = Deposito(
+            id_usuario=usuario.id,
+            id_cuenta=cuenta_id,
+            cantidad=cantidad
+        )
+        db.session.add(nuevo_deposito)
+        db.session.commit()
+
+        flash("Depósito exitoso.", "success")
+        return redirect(url_for('transacciones'))
+
+    # Cuando sea GET (llamado desde AJAX o algo simil
+    return jsonify([{
+        'id': cuenta.id,
+        'titular': cuenta.titular,
+        'numero_tarjeta': cuenta.numero_tarjeta
+    } for cuenta in cuentas])
 
 #metodo para "retirar" dinero 
-bp_retira = Blueprint('retirar_dinero', __name__)
-
-@bp_retira.route('/retirar_dinero', methods=['GET', 'POST'])
+@bp_transaccion.route('/retirar_dinero', methods=['GET', 'POST'])
 def vista_retirar():
     if 'usuario_id' not in session:
         flash("Debes iniciar sesión para retirar.", "error")
         return redirect(url_for('login'))
 
     usuario_id = session['usuario_id']
-    cuentas = CuentaBancaria.query.filter_by(id_usuario=usuario_id).all()
+    cuentas = RegistroBancario.query.filter_by(id_usuario=usuario_id).all()
 
     if request.method == 'POST':
         cuenta_id = request.form.get('cuenta_id')
-        cantidad = request.form.get('cantidad')
+        cantidad = float(request.form['cantidad'])
 
         if not cuenta_id or not cantidad:
             flash("Por favor, completa todos los campos.", "error")
-            return redirect(url_for('retirar'))
+            return redirect(url_for('transacciones'))
 
         try:
             cantidad = float(cantidad)
@@ -381,13 +398,13 @@ def vista_retirar():
         except ValueError:
             flash("Cantidad inválida.", "error")
 
-        return redirect(url_for('retirar'))
+        return redirect(url_for('transacciones'))
 
     # Cuando sea GET (llamado desde AJAX o algo similar)
     return jsonify([{
         'id': cuenta.id,
-        'nombre_banco': cuenta.nombre_banco,
-        'numero_cuenta': cuenta.numero_cuenta
+        'titular': cuenta.titular,
+        'numero_tarjeta': cuenta.numero_tarjeta
     } for cuenta in cuentas])
 
 

@@ -1,199 +1,169 @@
-.fondoizqui1{
-    background-color: #1A191A; 
-    width: 21vw; 
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 8rem;
-    z-index: 0; 
-}
-
-.contorno{
-    font-size: 2.4rem;
-    font-weight: bold; 
-    -webkit-text-stroke: 1.7px #000
-}
-
-.icono_rayas{
-    width: 70px;
-    height: 60px;
-    margin-left:73rem;
-    margin-top:40px;
-    background-color: rgba(255, 255, 255, 0);
-    border:none;
-}
-
-.icono_rayas img {
-    width: 100%;
-    height: 100%; 
-
-}
-.cuadro {
-    position: absolute;
-    width: 13rem;
-    height: 5rem;
-    background-color:rgb(13, 127, 127);
-    border-radius: 21px; 
-}
-.cuadro1 {
-    position: absolute;
-    width: 13rem;
-    height: 6.8rem;
-    background-color:rgb(13, 127, 127);
-    border-radius: 21px; 
-}
-
-.cuadro2 {
-    position: absolute;
-    width: 55rem;
-    height: 15rem;
-    background-color: #151515;
-    border-radius: 21px; 
-    left: 25rem;
-    top: 10rem;
-}
-
-.cuadro22{
-    position: absolute;
-    width: 55rem;
-    height: 15rem;
-    background-color: #151515;
-    border-radius: 21px; 
-    left: 25rem;
-    top: 10rem;
-    margin-top:18rem
-}
-
-.cuadro3{
-    position: absolute;
-    width: 18rem;
-    height: 6rem;
-    top:16.5rem;
-    left:30rem;
-    border-radius: 33px;
-    background-color: #999599; 
-}
-
-.cuadro32{
-    position: absolute;
-    width: 18rem;
-    height: 6rem;
-    top:16.5rem;
-    left:30rem;
-    border-radius: 33px;
-    background-color: #999599; 
-    margin-top:18rem
-}
-
-
-.cuadro4{
-    position: absolute;
-    width: 7rem;
-    height: 4rem;
-    top:17.4rem;
-    left:64rem;
-    border-radius: 10px;
-    background-color: #999599;
-
-}
-
-.cuadro42{
-    position: absolute;
-    width: 7rem;
-    height: 4rem;
-    top:17.4rem;
-    left:64rem;
-    border-radius: 10px;
-    background-color: #999599;
-    margin-top:18rem
-
-}
-
-.cuadro5{
-    position: absolute;
-    width: 55rem;
-    height: 30rem;
-    background-color: #151515;
-    border-radius: 21px; 
-    left: 25rem;
-    top: 12rem;
-}
-
-.visa{
-    margin-top:20px;
-    width: 7rem;
-    margin-left:4rem;
-}
-
-.padre{
+.page-container {
+    box-sizing: border-box;
+    overflow: hidden;
+    height: calc(100vh - 5rem);
     display: flex;
-    justify-content: center;
-    align-items: center;
-    
+    flex-direction: row;
 }
 
-
-.cuadro6{
-    position: absolute;
-    width: 30rem;
-    height: 4rem;
-    background-color: #989292;
-
+/* Estilo del menú lateral */
+.sidebar {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 13rem;
+    height: 100%;
+    background-color: #1e1e1e;
+    padding-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    box-shadow: 2px 0 5px rgba(0, 179, 134, 0.2);
+    z-index: 1000;
 }
 
-.cuadro7{
-    position: absolute;
-    width: 10rem;
-    height: 4rem;
-    background-color: #989292;
-    left: 37rem;
-    top:32rem;
-    border-radius: 20px;
-    font-size: 30px;
+/* Botones del menú */
+.sidebar-btn {
+    display: block;
+    padding: 1rem;
     text-align: center;
-}
-
-.cuadro8{
-    position: absolute;
-    width: 10rem;
-    height: 4.2rem;
-    background-color: #989292;
-    left: 37rem;
-    top:32rem;
+    text-decoration: none;
+    background-color: #2d2c2c;
     border-radius: 10px;
-    font-size: 30px;
-    text-align: center;
-    background-color:aqua
+    margin: 0 1rem;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 179, 134, 0.1);
 }
 
-.cuadro9{
-    position: absolute;
-    width: 17rem;
+.sidebar-btn:hover {
+    background-color: #c7d4cf;
+    color: #ffffff;
+    border: 2px solid #2d2d2d;
+    transform: translateY(-2px);
+}
+
+.contorno {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+
+    margin: 0;
+    line-height: 1.4;
+    height: 4rem;
+    align-content: center;
+}
+
+/* Responsive: ocultar sidebar en pantallas pequeñas */
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: center;
+        padding: 1rem 0;
+    }
+
+    .sidebar-btn {
+        margin: 0 0.5rem;
+        flex: 1;
+    }
+}
+
+
+.formulario {
+    width: 40vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: .8rem;
+    padding: 1rem;
+    border-radius: 10px;
+    color: white;
+    margin: 2rem auto;
+}
+
+.form-title {
+    width: 100%;
+    text-align: center;
+    color: #00b386;
+    font-family: "Fredericka the Great", serif;
+    font-weight: 400;
+    font-style: normal;
+    padding: 0;
+    margin: 0;
+}
+
+#payment-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 8rem;
+}
+
+#transaccion-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     height: 3rem;
-    background-color: #989292;
-    left: 32rem;
-    top:7rem;
-    border-radius: 10px;
-    font-size: 30px;
 }
 
-.cuadro10{
-    position: absolute;
-    width: 12rem;
-    height: 4.2rem;
-    background-color: #989292;
-    left: 21rem;
-    top:22rem;
-    border-radius: 10px;
-    font-size: 30px;
-    text-align: center;
-    background-color:aqua
+.form-label {
+    margin: 0;
 }
 
+.full-width {
+    width: 96%;
+}
 
+.half-width {
+    width: 45%;
+}
 
-  @keyframes fadeOut {
-    0% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; display: none; }
-  }
+.inline-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.column-group {
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
+    gap: 1rem;
+}
+
+.form-control,
+.form-select {
+    background-color: #2d2c2c;
+    color: white;
+    border: 1px solid #00b386;
+    padding: 0.5rem;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.form-control::placeholder {
+    color: white;
+}
+
+.small-input {
+    flex: 1;
+    max-width: 65%;
+}
+
+.icon-img {
+    max-height: 35px;
+    object-fit: contain;
+}
+
+@media screen and (max-width: 600px) {
+    form.form {
+        padding: 1.5rem;
+    }
+
+    .form-title {
+        font-size: 1.5rem;
+    }
+}

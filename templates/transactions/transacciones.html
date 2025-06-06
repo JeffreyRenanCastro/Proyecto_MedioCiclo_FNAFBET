@@ -1,0 +1,84 @@
+{% extends "layout/base.html" %}
+
+{% block title_Block %}Retirar - {% endblock %}
+
+{% block head_Block %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/de-transacciones.css') }}">
+{% endblock %}
+
+{% block page_Block %} - Retiros {% endblock %}
+
+{% block contents_Block %}
+<!-- Botones Izquierda -->
+{% include "transactions/menuLateral.html" %}
+
+<!-- Formulario de tarjeta -->
+<form action="{{ url_for('transaccion.depositar_dinero') }}" method="POST" class="formulario" id="transaccion-form">
+
+  <h2 class="form-title" id="titulo_transaccion">Transacción</h2>
+  
+  <!-- Cuenta (Tarjeta de credito) -->
+  <div class="form-group full-width">
+    <label for="tarjeta" class="form-label">Tarjeta de crédito</label>
+    <select name="cuenta_id" class="form-select" name="tarjeta" id="tarjeta" required>
+      <option value="" selected disabled hidden>Elija la tarjeta registrada</option>
+    {% if cuentas %}
+    {% for cuenta in cuentas %}
+    <option value="{{ cuenta.id }}">
+      {{ cuenta.titular }} - {{ cuenta.numero_tarjeta }}
+    </option>
+    {% endfor %}
+    {% else %}
+    <p> No tienes cuentas bancarias registradas. </p>
+    {% endif %}
+    </select>
+  </div>
+
+  <!-- Selector de acción -->
+  <div class="form-group half-width">
+    <label for="accion" class="form-label">Tarjeta de crédito</label>
+    <select id="tipo_transaccion" class="form-select" name="accion" id="accion" required>
+      <option value="" selected disabled hidden>Acción a realizar</option>
+      <option value="depositar">Depositar</option>
+      <option value="retirar">Retirar</option>
+    </select>
+  </div>
+
+  <!-- Cantidad usada en la acción -->
+  <div class="form-group half-width">
+    <label for="cantidad" class="form-label">Cantidad</label>
+    <input id="cantidad" name="cantidad" class="form-control" placeholder="$0.00" type="number" step="0.01" disabled required>
+  </div>
+
+  <!-- Botón guardar -->
+  <div style="text-align: center;" class="full-width">
+    <button type="submit" class="btn btn-info"><b>¡Realizar Transacción</b></button>
+  </div>
+</form>
+
+
+{% endblock %}
+
+{% block scripts_Block %}
+<script>
+  document.getElementById("tipo_transaccion").addEventListener("change", function () {
+    const tipo = this.value;
+    const form = document.getElementById("transaccion-form");
+    const titulo = document.getElementById("titulo_transaccion");
+    const cantidad = document.getElementById("cantidad");
+
+    if (tipo === "depositar") {
+      form.action = "{{ url_for('transaccion.depositar_dinero') }}";
+      titulo.textContent = "Transacción | Depósito";
+      cantidad.disabled = false;
+    } else if (tipo === "retirar") {
+      form.action = "{{ url_for('transaccion.vista_retirar') }}";
+      titulo.textContent = "Transacción | Retiro";
+      cantidad.disabled = false;
+    }
+  });
+</script>
+{% endblock %}
+
+{% block footer_block %}
+{% endblock %}

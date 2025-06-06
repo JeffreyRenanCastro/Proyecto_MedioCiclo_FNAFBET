@@ -16,12 +16,6 @@ class Usuario(db.Model):
     contraseña = db.Column(db.String(100), nullable=False)
     dinero = db.Column(db.Float, default=500)
 
-class Deposito(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
-    fecha_hora = db.Column(db.DateTime, default=datetime.utcnow)
-    cantidad = db.Column(db.Float, nullable=False)
-
 class ResultadosSnake(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
@@ -56,19 +50,28 @@ class ResultadosBlackjack(db.Model):
     dinero_invertido = db.Column(db.Float)
     dinero_ganado = db.Column(db.Float)
 
-class CuentaBancaria(db.Model):
-    __tablename__ = 'cuenta_bancaria'
+class RegistroBancario(db.Model):
+    __tablename__ = 'registro_bancario'
+    
     id = db.Column(db.Integer, primary_key=True)
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
-    nombre_banco = db.Column(db.String(50), nullable=False)
-    cedula = db.Column(db.String(20), nullable=False)
-    numero_cuenta = db.Column(db.String(20), nullable=False)      
+    titular = db.Column(db.String(100), nullable=False)  
+    numero_tarjeta = db.Column(db.String(20), nullable=False)
+    mes_expiracion = db.Column(db.String(2), nullable=False)
+    anio_expiracion = db.Column(db.String(4), nullable=False)
+    codigo_seguridad = db.Column(db.String(3), nullable=False)
 
+class Deposito(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    id_cuenta = db.Column(db.Integer, db.ForeignKey('registro_bancario.id'), nullable=False)
+    fecha_hora = db.Column(db.DateTime, default=datetime.utcnow)
+    cantidad = db.Column(db.Float, nullable=False)
 
 class retirar(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
-    id_cuenta = db.Column(db.Integer, db.ForeignKey('cuenta_bancaria.id'), nullable=False)
+    id_cuenta = db.Column(db.Integer, db.ForeignKey('registro_bancario.id'), nullable=False)
     fecha_hora = db.Column(db.DateTime, default=datetime.utcnow)
     cantidad = db.Column(db.Float, nullable=False)
     

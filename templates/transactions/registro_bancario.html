@@ -1,0 +1,77 @@
+{% extends "layout/base.html" %}
+
+{% block title_Block %}Cuenta Bancaria - {% endblock %}
+
+{% block head_Block %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/de-transacciones.css') }}">
+{% endblock %}
+
+{% block page_Block %} - Registro de Tarjeta {% endblock %}
+
+{% block contents_Block %}
+<!-- Botones Izquierda -->
+{% include "transactions/menuLateral.html" %}
+
+
+<!-- Formulario de tarjeta -->
+<form action="{{ url_for('cuenta.guardar_registro_bancario') }}" method="POST" class="formulario" id="payment-form">
+
+    <h2 class="form-title">Tarjeta de crédito o débito</h2>
+
+    <!-- Titular -->
+    <div class="form-group half-width">
+        <label for="titular" class="form-label">Nombre del titular</label>
+        <input type="text" placeholder="Como aparece en la tarjeta" class="form-control" name="titular" id="titular" required>
+    </div>
+
+    <!-- Número de tarjeta e imagen -->
+    <div class="form-group half-width">
+        <label for="numTarjeta" class="form-label">Número de tarjeta</label>
+        <div class="column-group">
+            <input type="text" placeholder="xxxx xxxx xxxx 1234" class="form-control" name="numTarjeta" id="numTarjeta" required>
+            <img src="{{ url_for('static', filename='Image/transactions/cards.png') }}" alt="Tarjetas de crédito" class="icon-img" />
+        </div>
+    </div>
+
+    <!-- Fecha de expiración (Mes y Año en línea) -->
+    <div class="form-group half-width">
+        <label class="form-label">Fecha de expiración</label>
+        <div class="inline-group">
+            <select class="form-select" name="mes" id="mes" required>
+                <option value="">Mes</option>
+                {% for m in range(1, 13) %}
+                <option value="{{ '%02d' % m }}">{{ '%02d' % m }}</option>
+                {% endfor %}
+            </select>
+            <select class="form-select" name="anio" id="anio" required>
+                <option value="">Año</option>
+                {% for a in range(2024, 2050) %}
+                <option value="{{ a }}">{{ a }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <!-- Código de seguridad e imagen -->
+    <div class="form-group half-width">
+        <label for="codSeguridad" class="form-label">Código de seguridad</label>
+        <div class="inline-group">
+            <input type="text" placeholder="3 dígitos" class="form-control small-input" name="codSeguridad" id="codSeguridad" maxlength="3"  required>
+            <img src="{{ url_for('static', filename='Image/transactions/cvv.png') }}" alt="CVV" class="icon-img" />
+        </div>
+    </div>
+
+    <!-- Botón guardar -->
+    <div style="text-align: center;" class="full-width">
+        <button type="submit" class="btn btn-info"><b>Guardar</b></button>
+    </div>
+</form>
+
+
+{% endblock %}
+
+{% block scripts_Block %}
+{% endblock %}
+
+{% block footer_block %}
+{% endblock %}

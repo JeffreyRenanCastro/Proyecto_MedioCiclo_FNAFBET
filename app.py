@@ -15,8 +15,8 @@ import pymysql
 from sqlalchemy import func
 
 # Importar los blueprints de los métodos y los modelos de la base de datos
-from database.metodos import registro_bp, bp_tragamodedas, bp_ruleta, bp_blackjack, bp_deposito, bp_snake_resultado, bp_cuenta, bp_retira, estadisticas_bp
-from database.models import Usuario, CuentaBancaria, ResultadosRuleta, ResultadosBlackjack, ResultadosTragaperras, ResultadosSnake
+from database.metodos import registro_bp, bp_tragamodedas, bp_ruleta, bp_blackjack, bp_snake_resultado, bp_cuenta, bp_transaccion, estadisticas_bp
+from database.models import Usuario, RegistroBancario, ResultadosRuleta, ResultadosBlackjack, ResultadosTragaperras, ResultadosSnake
 
 
 
@@ -135,25 +135,19 @@ def tresenraya():
     usuario =Usuario.query.get(session['usuario_id'])
     return render_template('games/tresenraya.html', usuario=usuario)
 
-@app.route("/Depositar", methods=['GET', 'POST'])
-def Depositar():
-    if 'usuario_id' not in session:
-        return redirect(url_for('login'))
-    return render_template('transactions/depositar.html')
-
-@app.route("/retirar", methods=['GET', 'POST'])
-def retirar():
+@app.route("/transacciones", methods=['GET', 'POST'])
+def transacciones():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
     usuario_id = session['usuario_id']
-    cuentas = CuentaBancaria.query.filter_by(id_usuario=usuario_id).all()
-    return render_template('transactions/retirar.html', cuentas=cuentas)
+    cuentas = RegistroBancario.query.filter_by(id_usuario=usuario_id).all()
+    return render_template('transactions/transacciones.html', cuentas=cuentas)
 
-@app.route("/Cuenta_bancaria", methods=['GET', 'POST'])
-def Cuenta_bancaria():
+@app.route("/registro_bancario", methods=['GET', 'POST'])
+def registro_bancario():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
-    return render_template('transactions/cuenta_bancaria.html')
+    return render_template('transactions/registro_bancario.html')
 
 @app.route("/estadisticas_mostrar", methods=['GET', 'POST'])
 def estadisticas_mostrar():
@@ -217,10 +211,9 @@ app.register_blueprint(registro_bp)
 app.register_blueprint(bp_tragamodedas) 
 app.register_blueprint(bp_ruleta)
 app.register_blueprint(bp_blackjack)
-app.register_blueprint(bp_deposito)
 app.register_blueprint(bp_snake_resultado)
+app.register_blueprint(bp_transaccion)
 app.register_blueprint(bp_cuenta)
-app.register_blueprint(bp_retira)
 app.register_blueprint(estadisticas_bp)
 
 # inializar el proyecto
