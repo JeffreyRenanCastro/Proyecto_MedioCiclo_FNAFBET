@@ -386,8 +386,8 @@ def vista_retirar():
             usuario = Usuario.query.get(usuario_id)
 
             if usuario.dinero is None or usuario.dinero < cantidad:
-                flash("Fondos insuficientes.", "error")
-                return redirect(url_for('retirar'))
+                flash("Fondos insuficientes.", "error")                
+                return redirect(url_for('transacciones'))
 
             retiro_nuevo = retirar(id_usuario=usuario_id, id_cuenta=cuenta_id, cantidad=cantidad)
             usuario.dinero -= cantidad
