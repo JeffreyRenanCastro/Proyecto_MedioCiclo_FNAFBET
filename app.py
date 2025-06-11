@@ -17,7 +17,7 @@ from sqlalchemy import func
 # Importar los blueprints de los métodos y los modelos de la base de datos
 from database.metodos import registro_bp, bp_tragamodedas, bp_ruleta, bp_blackjack, bp_snake_resultado, bp_cuenta, bp_transaccion, estadisticas_bp
 from database.models import Usuario, RegistroBancario, ResultadosRuleta, ResultadosBlackjack, ResultadosTragaperras, ResultadosSnake
-
+from database.informe import informe_bp
 
 
 pymysql.install_as_MySQLdb()
@@ -215,7 +215,7 @@ app.register_blueprint(bp_snake_resultado)
 app.register_blueprint(bp_transaccion)
 app.register_blueprint(bp_cuenta)
 app.register_blueprint(estadisticas_bp)
-
+app.register_blueprint(informe_bp, url_prefix="/informe")
 # inializar el proyecto
 if __name__ == '__main__':
     with app.app_context():

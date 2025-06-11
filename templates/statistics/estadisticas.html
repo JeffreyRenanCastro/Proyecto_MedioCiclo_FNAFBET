@@ -34,6 +34,13 @@
   </form>
 
   <canvas id="grafico"></canvas>
+
+  <div class="mt-4">
+    <a href="{{ url_for('informe.generar_informe_global') }}" class="btn btn-primary">
+      📄 Generar Informe en PDF
+    </a>
+  </div>
+
 </div>
 {% endblock %}
 
